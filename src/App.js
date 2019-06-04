@@ -45,7 +45,6 @@ class App extends React.Component {
     });
   };
   handleKeyPress = event => {
-    event.preventDefault();
     if (event.key == "ArrowUp") {
       console.log("enter press here! Up");
     } else if (event.key == "ArrowRight") {
@@ -56,7 +55,7 @@ class App extends React.Component {
       console.log("enter press here! Left");
     }
   };
-  }
+  
 
   getWisdom = (wisdom) => {
     this.setState({ wisdomObject: wisdom });
@@ -94,7 +93,6 @@ class App extends React.Component {
           <input type="button" id="Down" onKeyDown={this.handleKeyPress} />
           <input type="button" id="Left" onKeyDown={this.handleKeyPress} />
         </div>
-        <Maze maze={this.state.maze}/>
         <button onClick={() => {this.showModal("win")}}>test win modal</button>
       </div>
     );
