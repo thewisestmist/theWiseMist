@@ -39,7 +39,7 @@ class App extends React.Component {
     });
   }
 
-  
+
 
   render() {
     return (
@@ -52,12 +52,7 @@ class App extends React.Component {
         <header className="App-header">
           <img src="./1.jpg" className="App-logo" alt="The Wise Mist" />
         </header>
-<<<<<<< HEAD
         <Maze maze={this.state.maze}/>
-=======
-        {/* <Maze maze= {this.props.maze}/> */}
-        
->>>>>>> ace892607e2b5ce3eff3c27a3e3e13065f77adc8
       </div>
     );
   }
