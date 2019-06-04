@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import WisdomAPICall from "./components/WisdomAPICall";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      userQuery: "life"
+    };
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <WisdomAPICall userQuery={this.state.userQuery} />
+        <header className="App-header">
+          <img src="./1.jpg" className="App-logo" alt="The Wise Mist" />
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
