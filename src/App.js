@@ -27,8 +27,9 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.showModal("start");
+    window.addEventListener("keydown", this.handleKeyPress);
   }
 
   showModal = (modalToShow) => {
@@ -36,12 +37,25 @@ class App extends React.Component {
       modalVisible: true,
       modalToShow: modalToShow,
     });
-  }
+  };
 
   hideModal = () => {
     this.setState({
       modalVisible: false
     });
+  };
+  handleKeyPress = event => {
+    event.preventDefault();
+    if (event.key == "ArrowUp") {
+      console.log("enter press here! Up");
+    } else if (event.key == "ArrowRight") {
+      console.log("enter press here! Right");
+    } else if (event.key == "ArrowDown") {
+      console.log("enter press here! Down");
+    } else if (event.key == "ArrowLeft") {
+      console.log("enter press here! Left");
+    }
+  };
   }
 
   getWisdom = (wisdom) => {
@@ -58,7 +72,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Modal 
+        <Modal
           modalVisible={this.state.modalVisible}
           hideModal={this.hideModal}
           modalToShow={this.state.modalToShow}
@@ -71,8 +85,15 @@ class App extends React.Component {
           getWisdom={this.getWisdom} 
         /> : ""}
         <header className="App-header">
-          <img src="./1.jpg" className="App-logo" alt="The Wise Mist" />
+          {/* <img src="./1.jpg" className="App-logo" alt="The Wise Mist" /> */}
         </header>
+        <Maze maze={this.state.maze} />
+        <div>
+          <input type="button" id="Up" onKeyDown={this.handleKeyPress} />
+          <input type="button" id="Right" onKeyDown={this.handleKeyPress} />
+          <input type="button" id="Down" onKeyDown={this.handleKeyPress} />
+          <input type="button" id="Left" onKeyDown={this.handleKeyPress} />
+        </div>
         <Maze maze={this.state.maze}/>
         <button onClick={() => {this.showModal("win")}}>test win modal</button>
       </div>
