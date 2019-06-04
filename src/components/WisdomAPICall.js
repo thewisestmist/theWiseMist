@@ -2,22 +2,15 @@ import React, { Component } from "react";
 import Axios from "axios";
 
 class WisdomAPICall extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
   componentDidMount() {
-    this.fetchQuery();
+    this.props.getWisdom( this.fetchQuery() );
   }
 
   fetchQuery = () => {
-    console.log(this);
     this.getWisdom().then(response => {
       if (response !== undefined) {
-        this.setState({
-          wiseMistAnswer: response
-        });
+        this.props.getWisdom(response);
       } else {
         this.randomWisdom();
       }
@@ -29,9 +22,7 @@ class WisdomAPICall extends Component {
       const wiseMistAnswer = await Axios.get(
         `https://api.adviceslip.com/advice`
       );
-      this.setState({
-        wiseMistAnswer: wiseMistAnswer.data.slip.advice
-      });
+      this.props.getWisdom(wiseMistAnswer.data.slip.advice);
     } catch (error) {
       console.log(error.message);
     }

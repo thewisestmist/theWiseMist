@@ -19,17 +19,22 @@ class App extends React.Component {
         [0, 1, 1, 1, 0, 1, 0, 1],
         [0, 0, 0, 1, 0, 1, 0, 0]
       ],
-      modalVisible: false
+      modalVisible: false,
+      modalToShow: "",
+      wisdomObject: {},
+      userName: "",
+      wisdomKeyword: "",
     };
   }
 
   componentDidMount () {
-    this.showModal();
+    this.showModal("start");
   }
 
-  showModal = () => {
+  showModal = (modalToShow) => {
     this.setState({
-      modalVisible: true
+      modalVisible: true,
+      modalToShow: modalToShow,
     });
   }
 
@@ -39,6 +44,15 @@ class App extends React.Component {
     });
   }
 
+  getWisdom = (wisdom) => {
+    this.setState({ wisdomObject: wisdom });
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
 
 
   render() {
@@ -47,12 +61,20 @@ class App extends React.Component {
         <Modal 
           modalVisible={this.state.modalVisible}
           hideModal={this.hideModal}
+          modalToShow={this.state.modalToShow}
+          handleChange={this.handleChange}
+          userName={this.state.userName}
+          wisdomMessage={this.state.wisdomObject}
         />
-        <WisdomAPICall userQuery={this.state.userQuery} />
+        {!this.state.modalVisible ? <WisdomAPICall 
+          userQuery={this.state.wisdomKeyword} 
+          getWisdom={this.getWisdom} 
+        /> : ""}
         <header className="App-header">
           <img src="./1.jpg" className="App-logo" alt="The Wise Mist" />
         </header>
         <Maze maze={this.state.maze}/>
+        <button onClick={() => {this.showModal("win")}}>test win modal</button>
       </div>
     );
   }
