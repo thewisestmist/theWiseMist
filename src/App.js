@@ -8,7 +8,6 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      userQuery: "life",
       maze: [
         [0, 1, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 1, 1, 1],
@@ -44,18 +43,22 @@ class App extends React.Component {
       modalVisible: false
     });
   };
+
   handleKeyPress = event => {
-    if (event.key == "ArrowUp") {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
       console.log("enter press here! Up");
-    } else if (event.key == "ArrowRight") {
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
       console.log("enter press here! Right");
-    } else if (event.key == "ArrowDown") {
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
       console.log("enter press here! Down");
-    } else if (event.key == "ArrowLeft") {
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
       console.log("enter press here! Left");
     }
   };
-  
 
   getWisdom = (wisdom) => {
     this.setState({ wisdomObject: wisdom });
@@ -66,7 +69,6 @@ class App extends React.Component {
       [event.target.name]: event.target.value,
     });
   }
-
 
   render() {
     return (

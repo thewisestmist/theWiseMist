@@ -2,9 +2,9 @@ import React from "react";
 import Tile from "./Tile";
 
 class Maze extends React.Component {
-  constructor() {
-    super();
-  }
+  // constructor() {
+  //   super();
+  // }
 
   makeMaze = () => {
     let displayMaze = this.props.maze.map((tiles, i) => {
