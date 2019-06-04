@@ -12,11 +12,4 @@ const Tile = props => {
   );
 };
 
-//   if (props.fillValue === 0) {
-//     return <div className="empty" />;
-//   } else {
-//     return <div className="filled" />;
-//   }
-// };
-
 export default Tile;

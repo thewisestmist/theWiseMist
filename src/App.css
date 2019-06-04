@@ -28,9 +28,10 @@
   z-index: 90;
 }
 
-.startModal {
+.startModal,
+.winModal {
   background: white;
-  width: 30%;
+  width: 50%;
   text-align: center;
 }
 
@@ -58,4 +59,13 @@
 }
 .filled{
   background: black;
+
+label,
+input {
+  display: block;
+}
+
+input {
+  margin: 0 auto 2rem;
+  width: 80%;
 }
