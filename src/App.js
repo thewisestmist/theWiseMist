@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import Modal from "./components/Modal.js";
 import WisdomAPICall from "./components/WisdomAPICall";
 
 class App extends React.Component {
@@ -8,6 +9,10 @@ class App extends React.Component {
     this.state = {
       userQuery: "life"
     };
+  }
+
+  componentDidMount () {
+    
   }
 
   render() {
