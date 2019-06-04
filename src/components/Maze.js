@@ -1,25 +1,23 @@
 import React from "react";
+import Tile from "./Tile";
 
 class Maze extends React.Component {
   constructor() {
     super();
-    this.state={
-      maze: [
-        [0,1,0,1,0,0,0,0],
-        [0,0,0,1,0,1,1,1],
-        [1,1,0,1,0,0,0,1],
-        [0,1,0,0,0,1,0,1],
-        [0,1,0,1,0,1,0,0],
-        [0,0,0,0,0,0,0,1],
-        [0,1,1,1,0,1,0,1],
-        [0,0,0,1,0,1,0,0]
-      ]
-    }
+  }
+
+  makeMaze = () => {
+    let displayMaze = this.props.maze.map((tiles, i) => {        
+        return (tiles.map((tile, j)=>{                    
+          return (<Tile fillValue={this.props.maze[i][j]}/>)
+        }))
+      })
+    return displayMaze;
   }
 
   render() {
-    return(
-      <div>Whatever</div>
-    )
+      return <div>{this.makeMaze()}</div>
+    }
   }
-}
+
+export default Maze;
