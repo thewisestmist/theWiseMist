@@ -28,7 +28,7 @@ class App extends React.Component {
         <header className="App-header">
           <img src="./1.jpg" className="App-logo" alt="The Wise Mist" />
         </header>
-        <Maze maze= {this.props.maze}/>
+        <Maze maze={this.state.maze}/>
       </div>
     );
   }
