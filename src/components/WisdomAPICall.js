@@ -11,7 +11,8 @@ class WisdomAPICall extends Component {
     this.fetchQuery();
   }
 
-  fetchQuery() {
+  fetchQuery = () => {
+    console.log(this);
     this.getWisdom().then(response => {
       if (response !== undefined) {
         this.setState({
@@ -21,9 +22,9 @@ class WisdomAPICall extends Component {
         this.randomWisdom();
       }
     });
-  }
+  };
 
-  async randomWisdom() {
+  randomWisdom = async () => {
     try {
       const wiseMistAnswer = await Axios.get(
         `https://api.adviceslip.com/advice`
@@ -34,9 +35,9 @@ class WisdomAPICall extends Component {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
-  async getWisdom() {
+  getWisdom = async () => {
     try {
       const wiseMistAnswer = await Axios.get(
         `https://api.adviceslip.com/advice/search/${this.props.userQuery}`
@@ -45,7 +46,7 @@ class WisdomAPICall extends Component {
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
   render() {
     return <div />;
   }
