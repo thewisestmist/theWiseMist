@@ -41,3 +41,21 @@
 .hide {
   display: none;
 }
+.mazeBoard{
+  margin: 0 auto;
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr)
+}
+.tile{
+  border: 1px solid black;
+}
+.empty{
+
+}
+.filled{
+  background: black;
+}
