@@ -109,7 +109,10 @@ class App extends React.Component {
           console.log("sup");
           break;
       }
-    
+    const newX = this.state.userX + 1;
+    const newY = this.state.userY - this.state.maze.length;
+    document.documentElement.style.setProperty("--userX", newX);
+    document.documentElement.style.setProperty("--userY", newY);
   };
 
   getWisdom = wisdom => {

@@ -10,7 +10,7 @@ class Maze extends React.Component {
   makeMaze = () => {
     let displayMaze = this.props.maze.map((tiles, i) => {
       return tiles.map((tile, j) => {
-        return <Tile fillValue={this.props.maze[i][j]} />;
+        return <Tile fillValue={this.props.maze[i][j]} gridX={j} gridY={i}/>;
       });
     });
     displayMaze.push(<Avatar />)
