@@ -8,6 +8,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      // Y is the first index of the maze, starting at the bottom (i.e. 7)
+      // X is the second index of the maze, starting at the left (i.e. 0)
       maze: [
         [0, 1, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 1, 1, 1],
@@ -23,6 +25,8 @@ class App extends React.Component {
       wisdomObject: {},
       userName: "",
       wisdomKeyword: "",
+      userX: 0,
+      userY: 7
     };
   }
 
@@ -31,10 +35,10 @@ class App extends React.Component {
     window.addEventListener("keydown", this.handleKeyPress);
   }
 
-  showModal = (modalToShow) => {
+  showModal = modalToShow => {
     this.setState({
       modalVisible: true,
-      modalToShow: modalToShow,
+      modalToShow: modalToShow
     });
   };
 
@@ -44,31 +48,79 @@ class App extends React.Component {
     });
   };
 
+  // !!!! work on it more!!!!!!
   handleKeyPress = event => {
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      console.log("enter press here! Up");
-    } else if (event.key === "ArrowRight") {
-      event.preventDefault();
-      console.log("enter press here! Right");
-    } else if (event.key === "ArrowDown") {
-      event.preventDefault();
-      console.log("enter press here! Down");
-    } else if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      console.log("enter press here! Left");
+    if (!this.state.modalVisible) {
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        this.updateUserPosition("up");
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        this.updateUserPosition("right");
+      } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        this.updateUserPosition("down");
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        this.updateUserPosition("left");
+      }
     }
   };
 
-  getWisdom = (wisdom) => {
-    this.setState({ wisdomObject: wisdom });
-  }
+  updateUserPosition = direction => {
+      switch (direction) {
+        case "up":
+          if (this.state.userY > 0) {
+            if (this.state.maze[this.state.userY - 1][this.state.userX] === 0) {
+              this.setState({
+                userY: this.state.userY - 1
+              });
+            }
+          }
+          break;
+        case "right":
+          if (this.state.userX < this.state.maze[0].length - 1) {
+            if (this.state.maze[this.state.userY][this.state.userX + 1] === 0) {
+              this.setState({
+                userX: this.state.userX + 1
+              });
+            }
+          }
+          break;
+        case "down":
+          if (this.state.userY < this.state.maze.length - 1) {
+            if (this.state.maze[this.state.userY + 1][this.state.userX] === 0) {
+              this.setState({
+                userY: this.state.userY + 1
+              });
+            }
+          }
+          break;
+        case "left":
+          if (this.state.userX > 0) {
+            if (this.state.maze[this.state.userY][this.state.userX - 1] === 0) {
+              this.setState({
+                userX: this.state.userX - 1
+              });
+            }
+          }
+          break;
+        default:
+          console.log("sup");
+          break;
+      }
+    
+  };
 
-  handleChange = (event) => {
+  getWisdom = wisdom => {
+    this.setState({ wisdomObject: wisdom });
+  };
+
+  handleChange = event => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
-  }
+  };
 
   render() {
     return (
@@ -81,21 +133,61 @@ class App extends React.Component {
           userName={this.state.userName}
           wisdomMessage={this.state.wisdomObject}
         />
-        {!this.state.modalVisible ? <WisdomAPICall 
-          userQuery={this.state.wisdomKeyword} 
-          getWisdom={this.getWisdom} 
-        /> : ""}
+        {!this.state.modalVisible ? (
+          <WisdomAPICall
+            userQuery={this.state.wisdomKeyword}
+            getWisdom={this.getWisdom}
+          />
+        ) : (
+          ""
+        )}
         <header className="App-header">
           {/* <img src="./1.jpg" className="App-logo" alt="The Wise Mist" /> */}
         </header>
         <Maze maze={this.state.maze} />
         <div>
-          <input type="button" id="Up" onKeyDown={this.handleKeyPress} />
-          <input type="button" id="Right" onKeyDown={this.handleKeyPress} />
-          <input type="button" id="Down" onKeyDown={this.handleKeyPress} />
-          <input type="button" id="Left" onKeyDown={this.handleKeyPress} />
+          <input
+            type="button"
+            id="listener"
+            className="visuallyHidden"
+            onKeyDown={this.handleKeyPress}
+          />
+          <input
+            type="button"
+            id="Up"
+            onClick={() => {
+              this.updateUserPosition("up");
+            }}
+          />
+          <input
+            type="button"
+            id="Right"
+            onClick={() => {
+              this.updateUserPosition("right");
+            }}
+          />
+          <input
+            type="button"
+            id="Down"
+            onClick={() => {
+              this.updateUserPosition("down");
+            }}
+          />
+          <input
+            type="button"
+            id="Left"
+            onClick={() => {
+              this.updateUserPosition("left");
+            }}
+          />
         </div>
-        <button onClick={() => {this.showModal("win")}}>test win modal</button>
+        <button
+          onClick={() => {
+            this.showModal("win");
+          }}
+        >
+          test win modal
+        </button>
       </div>
     );
   }
