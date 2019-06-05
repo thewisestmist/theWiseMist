@@ -31,6 +31,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    document.documentElement.style.setProperty("--userX", 1);
+    document.documentElement.style.setProperty("--userY", -1);
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
   }
@@ -52,29 +54,26 @@ class App extends React.Component {
   handleKeyPress = event => {
     if (!this.state.modalVisible) {
       if (event.key === "ArrowUp") {
-        event.preventDefault();
-        this.updateUserPosition("up");
+        this.updateUserPosition("up", event);
       } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        this.updateUserPosition("right");
+        this.updateUserPosition("right", event);
       } else if (event.key === "ArrowDown") {
-        event.preventDefault();
-        this.updateUserPosition("down");
+        this.updateUserPosition("down", event);
       } else if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        this.updateUserPosition("left");
+        this.updateUserPosition("left", event);
       }
     }
   };
 
-  updateUserPosition = direction => {
+  updateUserPosition = (direction, event) => {
+    event.preventDefault();
       switch (direction) {
         case "up":
           if (this.state.userY > 0) {
             if (this.state.maze[this.state.userY - 1][this.state.userX] === 0) {
               this.setState({
                 userY: this.state.userY - 1
-              });
+              }, this.moveAvatar);
             }
           }
           break;
@@ -83,7 +82,7 @@ class App extends React.Component {
             if (this.state.maze[this.state.userY][this.state.userX + 1] === 0) {
               this.setState({
                 userX: this.state.userX + 1
-              });
+              }, this.moveAvatar);
             }
           }
           break;
@@ -92,7 +91,7 @@ class App extends React.Component {
             if (this.state.maze[this.state.userY + 1][this.state.userX] === 0) {
               this.setState({
                 userY: this.state.userY + 1
-              });
+              }, this.moveAvatar);
             }
           }
           break;
@@ -101,7 +100,7 @@ class App extends React.Component {
             if (this.state.maze[this.state.userY][this.state.userX - 1] === 0) {
               this.setState({
                 userX: this.state.userX - 1
-              });
+              }, this.moveAvatar);
             }
           }
           break;
@@ -109,11 +108,14 @@ class App extends React.Component {
           console.log("sup");
           break;
       }
+  };
+
+  moveAvatar = () => {
     const newX = this.state.userX + 1;
     const newY = this.state.userY - this.state.maze.length;
     document.documentElement.style.setProperty("--userX", newX);
     document.documentElement.style.setProperty("--userY", newY);
-  };
+  }
 
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
@@ -155,34 +157,30 @@ class App extends React.Component {
             className="visuallyHidden"
             onKeyDown={this.handleKeyPress}
           />
-          <input
-            type="button"
+          <button
             id="Up"
-            onClick={() => {
-              this.updateUserPosition("up");
-            }}
-          />
-          <input
-            type="button"
+            onClick={(event) => {
+              this.updateUserPosition("up", event);
+            }} >Up
+          </button>
+          <button
             id="Right"
-            onClick={() => {
-              this.updateUserPosition("right");
-            }}
-          />
-          <input
-            type="button"
+            onClick={(event) => {
+              this.updateUserPosition("right", event);
+            }}>Right
+          </button>
+          <button
             id="Down"
-            onClick={() => {
-              this.updateUserPosition("down");
-            }}
-          />
-          <input
-            type="button"
+            onClick={(event) => {
+              this.updateUserPosition("down", event);
+            }}>Down
+          </button>
+          <button
             id="Left"
-            onClick={() => {
-              this.updateUserPosition("left");
-            }}
-          />
+            onClick={(event) => {
+              this.updateUserPosition("left", event);
+            }}>Left
+          </button>
         </div>
         <button
           onClick={() => {
