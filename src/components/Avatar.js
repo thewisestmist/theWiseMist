@@ -1,9 +1,7 @@
 import React from "react";
 
-const Avatar = (props) => {
-  return (
-    <div className="tile avatar"></div>
-  )
-}
+const Avatar = props => {
+  return <div className="tile avatar" />;
+};
 
-export default Avatar
+export default Avatar;

@@ -11,14 +11,15 @@ class App extends React.Component {
       // Y is the first index of the maze, starting at the bottom (i.e. 7)
       // X is the second index of the maze, starting at the left (i.e. 0)
       maze: [
-        [0, 1, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 1, 0, 1, 1, 1],
-        [1, 1, 0, 1, 0, 0, 0, 1],
-        [0, 1, 0, 0, 0, 1, 0, 1],
-        [0, 1, 0, 1, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 1, 1, 1, 0, 1, 0, 1],
-        [0, 0, 0, 1, 0, 1, 0, 0]
+        [0, 1, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 2, 1, 1, 0],
+        [1, 1, 0, 1, 0, 0, 0, 1, 0],
+        [0, 1, 0, 0, 0, 1, 0, 1, 0],
+        [0, 2, 0, 1, 0, 2, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 1, 1, 1, 0, 1, 0, 1, 0],
+        [0, 0, 0, 1, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 1, 0, 0, 0]
       ],
       modalVisible: false,
       modalToShow: "",
@@ -67,47 +68,59 @@ class App extends React.Component {
 
   updateUserPosition = (direction, event) => {
     event.preventDefault();
-      switch (direction) {
-        case "up":
-          if (this.state.userY > 0) {
-            if (this.state.maze[this.state.userY - 1][this.state.userX] === 0) {
-              this.setState({
+    switch (direction) {
+      case "up":
+        if (this.state.userY > 0) {
+          if (this.state.maze[this.state.userY - 1][this.state.userX] === 0) {
+            this.setState(
+              {
                 userY: this.state.userY - 1
-              }, this.moveAvatar);
-            }
+              },
+              this.moveAvatar
+            );
           }
-          break;
-        case "right":
-          if (this.state.userX < this.state.maze[0].length - 1) {
-            if (this.state.maze[this.state.userY][this.state.userX + 1] === 0) {
-              this.setState({
+        }
+        break;
+      case "right":
+        if (this.state.userX < this.state.maze[0].length - 1) {
+          if (this.state.maze[this.state.userY][this.state.userX + 1] === 0) {
+            this.setState(
+              {
                 userX: this.state.userX + 1
-              }, this.moveAvatar);
-            }
+              },
+              this.moveAvatar
+            );
           }
-          break;
-        case "down":
-          if (this.state.userY < this.state.maze.length - 1) {
-            if (this.state.maze[this.state.userY + 1][this.state.userX] === 0) {
-              this.setState({
+        }
+        break;
+      case "down":
+        if (this.state.userY < this.state.maze.length - 1) {
+          if (this.state.maze[this.state.userY + 1][this.state.userX] === 0) {
+            this.setState(
+              {
                 userY: this.state.userY + 1
-              }, this.moveAvatar);
-            }
+              },
+              this.moveAvatar
+            );
           }
-          break;
-        case "left":
-          if (this.state.userX > 0) {
-            if (this.state.maze[this.state.userY][this.state.userX - 1] === 0) {
-              this.setState({
+        }
+        break;
+      case "left":
+        if (this.state.userX > 0) {
+          if (this.state.maze[this.state.userY][this.state.userX - 1] === 0) {
+            this.setState(
+              {
                 userX: this.state.userX - 1
-              }, this.moveAvatar);
-            }
+              },
+              this.moveAvatar
+            );
           }
-          break;
-        default:
-          console.log("sup");
-          break;
-      }
+        }
+        break;
+      default:
+        console.log("sup");
+        break;
+    }
   };
 
   moveAvatar = () => {
@@ -115,7 +128,7 @@ class App extends React.Component {
     const newY = this.state.userY - this.state.maze.length;
     document.documentElement.style.setProperty("--userX", newX);
     document.documentElement.style.setProperty("--userY", newY);
-  }
+  };
 
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
@@ -159,27 +172,35 @@ class App extends React.Component {
           />
           <button
             id="Up"
-            onClick={(event) => {
+            onClick={event => {
               this.updateUserPosition("up", event);
-            }} >Up
+            }}
+          >
+            Up
           </button>
           <button
             id="Right"
-            onClick={(event) => {
+            onClick={event => {
               this.updateUserPosition("right", event);
-            }}>Right
+            }}
+          >
+            Right
           </button>
           <button
             id="Down"
-            onClick={(event) => {
+            onClick={event => {
               this.updateUserPosition("down", event);
-            }}>Down
+            }}
+          >
+            Down
           </button>
           <button
             id="Left"
-            onClick={(event) => {
+            onClick={event => {
               this.updateUserPosition("left", event);
-            }}>Left
+            }}
+          >
+            Left
           </button>
         </div>
         <button
