@@ -147,8 +147,6 @@ class App extends React.Component {
           ""
         )}
         <header className="App-header">
-          {/* <img src="./1.jpg" className="App-logo" alt="The Wise Mist" /> */}
-        </header>
         <Maze maze={this.state.maze} />
         <div>
           <input
@@ -189,6 +187,7 @@ class App extends React.Component {
         >
           test win modal
         </button>
+        </header>
       </div>
     );
   }
