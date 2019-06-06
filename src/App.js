@@ -4,6 +4,7 @@ import Modal from "./components/Modal.js";
 import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
 import mazeMap from "./mazeMap.js";
+import Avatar from "./components/Avatar.js";
 
 class App extends React.Component {
   constructor() {
@@ -15,7 +16,10 @@ class App extends React.Component {
       userName: "",
       wisdomKeyword: "",
       userX: 0,
-      userY: 0
+      userY: 0,
+      mazeX: -1,
+      mazeY: -1,
+      mazeTileSize: window.innerWidth * 0.053
     };
   }
 
@@ -23,10 +27,18 @@ class App extends React.Component {
     this.setState({
       userY: mazeMap.length-1
     });
-    document.documentElement.style.setProperty("--userX", 1);
-    document.documentElement.style.setProperty("--userY", -1);
+    document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
+    const newX = this.state.mazeX * this.state.mazeTileSize;
+    const newY = this.state.mazeY * this.state.mazeTileSize;
+    document.documentElement.style.setProperty("--mazeX", newX + "px");
+    document.documentElement.style.setProperty("--mazeY", newY + "px");
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
+    window.addEventListener("resize", () => { 
+      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => { 
+        document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
+      })
+    } );
   }
 
   showModal = modalToShow => {
@@ -65,7 +77,8 @@ class App extends React.Component {
           if (mazeMap[this.state.userY - 1][this.state.userX] >= 0) {
             this.setState(
               {
-                userY: this.state.userY - 1
+                userY: this.state.userY - 1,
+                mazeY: this.state.mazeY + 1
               },
               this.moveAvatar
             );
@@ -77,7 +90,8 @@ class App extends React.Component {
           if (mazeMap[this.state.userY][this.state.userX + 1] >= 0) {
             this.setState(
               {
-                userX: this.state.userX + 1
+                userX: this.state.userX + 1,
+                mazeX: this.state.mazeX +1
               },
               this.moveAvatar
             );
@@ -89,7 +103,8 @@ class App extends React.Component {
           if (mazeMap[this.state.userY + 1][this.state.userX] >= 0) {
             this.setState(
               {
-                userY: this.state.userY + 1
+                userY: this.state.userY + 1,
+                mazeY: this.state.mazeY - 1
               },
               this.moveAvatar
             );
@@ -101,7 +116,8 @@ class App extends React.Component {
           if (mazeMap[this.state.userY][this.state.userX - 1] >= 0) {
             this.setState(
               {
-                userX: this.state.userX - 1
+                userX: this.state.userX - 1,
+                mazeX: this.state.mazeX - 1
               },
               this.moveAvatar
             );
@@ -115,10 +131,10 @@ class App extends React.Component {
   };
 
   moveAvatar = () => {
-    const newX = this.state.userX + 1;
-    const newY = this.state.userY - mazeMap.length;
-    document.documentElement.style.setProperty("--userX", newX);
-    document.documentElement.style.setProperty("--userY", newY);
+    const newX = this.state.mazeX * this.state.mazeTileSize;
+    const newY = this.state.mazeY * this.state.mazeTileSize;
+    document.documentElement.style.setProperty("--mazeX", newX + "px");
+    document.documentElement.style.setProperty("--mazeY", newY + "px");
     this.checkCurrentPosition();
   };
 
@@ -132,6 +148,8 @@ class App extends React.Component {
     this.setState({
       userX: 0,
       userY: mazeMap.length-1,
+      mazeX: -1,
+      mazeY: -1,
       userName: "",
       wisdomKeyword: "",
       modalToShow: "start"
@@ -168,8 +186,12 @@ class App extends React.Component {
         ) : (
           ""
         )}
-        <header className="App-header">
-          <Maze maze={mazeMap} />
+        <main className="AppContainer">
+          <div className="wrapper">
+            <div className="mazeWindow">
+              <Maze maze={mazeMap} />
+              <Avatar />
+            </div>
           <div>
             <input
               type="button"
@@ -217,7 +239,8 @@ class App extends React.Component {
           >
             test win modal
           </button>
-        </header>
+          </div>
+        </main>
       </div>
     );
   }
