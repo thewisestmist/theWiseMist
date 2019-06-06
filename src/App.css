@@ -71,15 +71,15 @@ h4 {
 .mistContainer {
   position: relative;
   width: 100%;
-  height: 30vmin;
+  height: 100%;
 }
 
 .wiseMist {
   position: absolute;
-  width: 30vmin;
-  height: 30vmin;
+  width: 100%;
+  height: 100%;
   top: 0;
-  left: calc(50% - 15vmin);
+  /* left: calc(50% - 15vmin); */
   pointer-events: none;
 }
 
@@ -162,8 +162,9 @@ h4 {
   height: 500px;
   border: 1px solid black;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(8, 1fr)
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  position: relative;
 }
 
 .tile{
@@ -172,8 +173,14 @@ h4 {
   height: 100%;
 }
 
-.empty{
+.clear{
 
+}
+.asteroid{
+  background: white;
+  background-image: url("https://www.pinclipart.com/picdir/middle/72-725644_transparent-asteroid-asteroid-clipart-png.png");
+  background-size: 100% 100%
+  
 }
 .filled {
   background: black;
@@ -224,9 +231,19 @@ label {
 }
 
 .avatar {
-  background-color: tomato;
-  grid-column-start: var(--userX);
-  grid-column-end: span 1;
-  grid-row-start: span 1;
-  grid-row-end: var(--userY);
+    /* background-color: tomato; */
+    grid-column-start: var(--userX);
+    grid-column-end: span 1;
+    grid-row-start: span 1;
+    grid-row-end: var(--userY);
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png");
+    width: 36px;
+    height: 35px;
+    margin: 0 auto;
+    margin-top: 10px;
+    border: none;
+    z-index: 5
 }
+  
