@@ -3,6 +3,7 @@ import "./App.css";
 import Modal from "./components/Modal.js";
 import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
+import mazeMap from "./mazeMap.js";
 
 class App extends React.Component {
   constructor() {
@@ -10,28 +11,22 @@ class App extends React.Component {
     this.state = {
       // Y is the first index of the maze, starting at the bottom (i.e. 7)
       // X is the second index of the maze, starting at the left (i.e. 0)
-      maze: [
-        [0, 1, 0, 2, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 0, 2, 1, 1, 0],
-        [1, 1, 0, 1, 0, 0, 0, 1, 0],
-        [0, 1, 0, 0, 0, 1, 0, 1, 0],
-        [0, 2, 0, 1, 0, 2, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1, 0],
-        [0, 1, 1, 1, 0, 1, 0, 1, 0],
-        [0, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 0, 0, 1, 0, 1, 0, 0, 0]
-      ],
+      // Numbers 0 and great you can pass through
+      // Number less than 0 you cannot
       modalVisible: false,
       modalToShow: "",
       wisdomObject: {},
       userName: "",
       wisdomKeyword: "",
       userX: 0,
-      userY: 7
+      userY: 0
     };
   }
 
   componentDidMount() {
+    this.setState({
+      userY: mazeMap.length
+    });
     document.documentElement.style.setProperty("--userX", 1);
     document.documentElement.style.setProperty("--userY", -1);
     this.showModal("start");
@@ -71,7 +66,7 @@ class App extends React.Component {
     switch (direction) {
       case "up":
         if (this.state.userY > 0) {
-          if (this.state.maze[this.state.userY - 1][this.state.userX] === 0) {
+          if (mazeMap[this.state.userY - 1][this.state.userX] >= 0) {
             this.setState(
               {
                 userY: this.state.userY - 1
@@ -82,8 +77,8 @@ class App extends React.Component {
         }
         break;
       case "right":
-        if (this.state.userX < this.state.maze[0].length - 1) {
-          if (this.state.maze[this.state.userY][this.state.userX + 1] === 0) {
+        if (this.state.userX < mazeMap[0].length - 1) {
+          if (mazeMap[this.state.userY][this.state.userX + 1] >= 0) {
             this.setState(
               {
                 userX: this.state.userX + 1
@@ -94,8 +89,8 @@ class App extends React.Component {
         }
         break;
       case "down":
-        if (this.state.userY < this.state.maze.length - 1) {
-          if (this.state.maze[this.state.userY + 1][this.state.userX] === 0) {
+        if (this.state.userY < mazeMap.length - 1) {
+          if (mazeMap[this.state.userY + 1][this.state.userX] >= 0) {
             this.setState(
               {
                 userY: this.state.userY + 1
@@ -107,7 +102,7 @@ class App extends React.Component {
         break;
       case "left":
         if (this.state.userX > 0) {
-          if (this.state.maze[this.state.userY][this.state.userX - 1] === 0) {
+          if (mazeMap[this.state.userY][this.state.userX - 1] >= 0) {
             this.setState(
               {
                 userX: this.state.userX - 1
@@ -125,9 +120,16 @@ class App extends React.Component {
 
   moveAvatar = () => {
     const newX = this.state.userX + 1;
-    const newY = this.state.userY - this.state.maze.length;
+    const newY = this.state.userY - mazeMap.length;
     document.documentElement.style.setProperty("--userX", newX);
     document.documentElement.style.setProperty("--userY", newY);
+    this.checkCurrentPosition();
+  };
+
+  checkCurrentPosition = () => {
+    if (mazeMap[this.state.userY][this.state.userX] === 9) {
+      this.showModal("win");
+    }
   };
 
   getWisdom = wisdom => {
@@ -160,54 +162,54 @@ class App extends React.Component {
           ""
         )}
         <header className="App-header">
-        <Maze maze={this.state.maze} />
-        <div>
-          <input
-            type="button"
-            id="listener"
-            className="visuallyHidden"
-            onKeyDown={this.handleKeyPress}
-          />
+          <Maze maze={mazeMap} />
+          <div>
+            <input
+              type="button"
+              id="listener"
+              className="visuallyHidden"
+              onKeyDown={this.handleKeyPress}
+            />
+            <button
+              id="Up"
+              onClick={event => {
+                this.updateUserPosition("up", event);
+              }}
+            >
+              Up
+            </button>
+            <button
+              id="Right"
+              onClick={event => {
+                this.updateUserPosition("right", event);
+              }}
+            >
+              Right
+            </button>
+            <button
+              id="Down"
+              onClick={event => {
+                this.updateUserPosition("down", event);
+              }}
+            >
+              Down
+            </button>
+            <button
+              id="Left"
+              onClick={event => {
+                this.updateUserPosition("left", event);
+              }}
+            >
+              Left
+            </button>
+          </div>
           <button
-            id="Up"
-            onClick={event => {
-              this.updateUserPosition("up", event);
+            onClick={() => {
+              this.showModal("win");
             }}
           >
-            Up
+            test win modal
           </button>
-          <button
-            id="Right"
-            onClick={event => {
-              this.updateUserPosition("right", event);
-            }}
-          >
-            Right
-          </button>
-          <button
-            id="Down"
-            onClick={event => {
-              this.updateUserPosition("down", event);
-            }}
-          >
-            Down
-          </button>
-          <button
-            id="Left"
-            onClick={event => {
-              this.updateUserPosition("left", event);
-            }}
-          >
-            Left
-          </button>
-        </div>
-        <button
-          onClick={() => {
-            this.showModal("win");
-          }}
-        >
-          test win modal
-        </button>
         </header>
       </div>
     );

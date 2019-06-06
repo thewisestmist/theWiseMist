@@ -71,15 +71,15 @@ h4 {
 .mistContainer {
   position: relative;
   width: 100%;
-  height: 30vmin;
+  height: 100%;
 }
 
 .wiseMist {
   position: absolute;
-  width: 30vmin;
-  height: 30vmin;
+  width: 100%;
+  height: 100%;
   top: 0;
-  left: calc(50% - 15vmin);
+  /* left: calc(50% - 15vmin); */
   pointer-events: none;
 }
 
@@ -236,14 +236,14 @@ label {
     grid-column-end: span 1;
     grid-row-start: span 1;
     grid-row-end: var(--userY);
-    position: absolute;
     transition-duration: 1s;
     transition-timing-function: linear;
     background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png");
     width: 36px;
     height: 35px;
     margin: 0 auto;
-    margin: 20% 20%; 
+    margin-top: 10px;
     border: none;
+    z-index: 5
 }
   
