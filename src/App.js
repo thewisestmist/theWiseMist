@@ -9,10 +9,6 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      // Y is the first index of the maze, starting at the bottom (i.e. 7)
-      // X is the second index of the maze, starting at the left (i.e. 0)
-      // Numbers 0 and great you can pass through
-      // Number less than 0 you cannot
       modalVisible: false,
       modalToShow: "",
       wisdomObject: {},
@@ -25,7 +21,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setState({
-      userY: mazeMap.length
+      userY: mazeMap.length-1
     });
     document.documentElement.style.setProperty("--userX", 1);
     document.documentElement.style.setProperty("--userY", -1);
@@ -132,6 +128,16 @@ class App extends React.Component {
     }
   };
 
+  resetGame = () => {
+    this.setState({
+      userX: 0,
+      userY: mazeMap.length-1,
+      userName: "",
+      wisdomKeyword: "",
+      modalToShow: "start"
+    }, this.moveAvatar);
+  }
+
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
   };
@@ -152,6 +158,7 @@ class App extends React.Component {
           handleChange={this.handleChange}
           userName={this.state.userName}
           wisdomMessage={this.state.wisdomObject}
+          resetGame={this.resetGame}
         />
         {!this.state.modalVisible ? (
           <WisdomAPICall
