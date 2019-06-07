@@ -101,7 +101,7 @@ h4 {
   margin: 0 auto;
   width: 100%;
   max-width: 1000px;
-  padding-top: 2.0rem;
+  /* padding-top: 2.0rem; */
 }
 
 /* for spinning animation */
@@ -218,8 +218,11 @@ h4 {
 
 .mazeBoard{
   display: grid;
-  grid-template-columns: repeat(21, var(--mazeTileSize));
-  grid-template-rows: repeat(21, var(--mazeTileSize));
+  /* this crazy-ass number is 21 * 6.625% (which was the tile width) */
+  width: 139.125%;
+  height: 139.125%;
+  grid-template-columns: repeat(21, 1fr);
+  grid-template-rows: repeat(21, 1fr);
   position: absolute;
   right: var(--mazeX);
   top: var(--mazeY);
@@ -229,8 +232,6 @@ h4 {
 
 .tile{
   border: 1px solid black;
-  /* width: var(--mazeTileSize); */
-  /* height: var(--mazeTileSize); */
   width: 100%;
   height: 100%;
 }
@@ -360,3 +361,12 @@ label {
     z-index: 5;
 }
   
+/* Media Queries beign */
+@media (min-width: 768px) {
+  .mazeWindow {
+    width: 80vw;
+    height: 80vw;
+  }
+  /* this resets the mazeWindow to 80% width, but it breaks the maze layout, so we have to change the
+  multiplier in the code so everything still gets placed properly. */
+}
