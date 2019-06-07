@@ -19,6 +19,7 @@ const Modal = props => {
         hideModal={props.hideModal}
         userName={props.userName}
         wisdomMessage={props.wisdomMessage}
+        resetGame={props.resetGame}
       />
     );
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import MistTile from "./MistTile";
 
 const Tile = props => {
   let divStyle = {
@@ -6,16 +7,27 @@ const Tile = props => {
     gridColumnEnd: `span 1`,
     gridRowStart: `${props.gridY + 1}`,
     gridRowEnd: `span 1`
+  };
+
+  function getTileSprite(type) {
+    switch (type) {
+      case 0:
+        return "empty";
+      case -1:
+        return "filled";
+      case -2:
+        return "asteroid";
+      case 9:
+        return "mist";
+      default:
+        return null;
+    }
   }
 
   return (
-    <>
-      {props.fillValue === 0 ? (
-        <div className="tile empty" style={divStyle} />
-      ) : (
-        <div className="tile filled" style={divStyle} />
-      )}
-    </>
+    <div className={`tile ${getTileSprite(props.fillValue)}`} style={divStyle}>
+      {props.fillValue === 9 ? <MistTile /> : ""}
+    </div>
   );
 };
 

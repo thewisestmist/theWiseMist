@@ -1,6 +1,5 @@
 import React from "react";
 import Tile from "./Tile.js";
-import Avatar from "./Avatar.js";
 
 class Maze extends React.Component {
   // constructor() {
@@ -10,10 +9,9 @@ class Maze extends React.Component {
   makeMaze = () => {
     let displayMaze = this.props.maze.map((tiles, i) => {
       return tiles.map((tile, j) => {
-        return <Tile fillValue={this.props.maze[i][j]} gridX={j} gridY={i}/>;
+        return <Tile fillValue={this.props.maze[i][j]} gridX={j} gridY={i} />;
       });
     });
-    displayMaze.push(<Avatar />)
     return displayMaze;
   };
 
