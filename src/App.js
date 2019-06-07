@@ -257,7 +257,7 @@ class App extends React.Component {
                     this.updateUserPosition("up", event);
                   }}
                 >
-                  <i class="fas fa-angle-up" aria-hidden="true">
+                  <i className="fas fa-angle-up" aria-hidden="true">
                     <span className="visuallyHidden">up</span>
                   </i>
                 </button>
@@ -270,7 +270,7 @@ class App extends React.Component {
                     this.updateUserPosition("left", event);
                   }}
                 >
-                  <i class="fas fa-angle-left" aria-hidden="true">
+                  <i className="fas fa-angle-left" aria-hidden="true">
                     <span className="visuallyHidden">left</span>
                   </i>
                 </button>
@@ -281,7 +281,7 @@ class App extends React.Component {
                     this.updateUserPosition("right", event);
                   }}
                 >
-                  <i class="fas fa-angle-right" aria-hidden="true">
+                  <i className="fas fa-angle-right" aria-hidden="true">
                     <span className="visuallyHidden">right</span>
                   </i>
                 </button>
@@ -294,7 +294,7 @@ class App extends React.Component {
                     this.updateUserPosition("down", event);
                   }}
                 >
-                  <i class="fas fa-angle-down" aria-hidden="true">
+                  <i className="fas fa-angle-down" aria-hidden="true">
                     <span className="visuallyHidden">down</span>
                   </i>
                 </button>
