@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      modalVisible: false,
+      modalVisible: true,
       modalToShow: "",
       wisdomObject: {},
       userName: "",
@@ -19,7 +19,10 @@ class App extends React.Component {
       userY: 0,
       mazeX: -13,
       mazeY: -13,
-      mazeTileSize: window.innerWidth * 0.053
+      mazeTileSize: window.innerWidth * 0.053,
+      keysActive: true,
+      wisdomError: false,
+      inputError: false
     };
   }
 
@@ -45,6 +48,20 @@ class App extends React.Component {
         );
       });
     });
+
+    //add event listener to see when player move is finished,
+    document.addEventListener("transitionend", () => {
+      this.setState({
+        keysActive: true
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    //clean up event listeners on component dismount
+    window.removeEventListener("keydown");
+    window.removeEventListener("resize");
+    document.removeEventListener("transitionend");
   }
 
   showModal = modalToShow => {
@@ -55,14 +72,29 @@ class App extends React.Component {
   };
 
   hideModal = () => {
-    this.setState({
-      modalVisible: false
-    });
+    if (this.state.userName && this.state.wisdomKeyword) {
+      const regex = /^\b[a-zA-Z]+\b$/;
+      if (!this.state.wisdomKeyword.match(regex)) {
+        this.setState({
+          wisdomError: true,
+          inputError: false
+        });
+      } else {
+        this.setState({
+          modalVisible: false
+        });
+      }
+    } else {
+      this.setState({
+        inputError: true,
+        wisdomError: false
+      });
+    }
   };
 
   // !!!! work on it more!!!!!!
   handleKeyPress = event => {
-    if (!this.state.modalVisible) {
+    if (!this.state.modalVisible && this.state.keysActive) {
       if (event.key === "ArrowUp") {
         this.updateUserPosition("up", event);
       } else if (event.key === "ArrowRight") {
@@ -84,7 +116,8 @@ class App extends React.Component {
             this.setState(
               {
                 userY: this.state.userY - 1,
-                mazeY: this.state.mazeY + 1
+                mazeY: this.state.mazeY + 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -98,7 +131,8 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX + 1,
-                mazeX: this.state.mazeX + 1
+                mazeX: this.state.mazeX + 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -111,7 +145,8 @@ class App extends React.Component {
             this.setState(
               {
                 userY: this.state.userY + 1,
-                mazeY: this.state.mazeY - 1
+                mazeY: this.state.mazeY - 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -124,7 +159,8 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX - 1,
-                mazeX: this.state.mazeX - 1
+                mazeX: this.state.mazeX - 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -160,7 +196,9 @@ class App extends React.Component {
         mazeY: -13,
         userName: "",
         wisdomKeyword: "",
-        modalToShow: "start"
+        modalToShow: "start",
+        inputError: false,
+        wisdomError: false
       },
       this.moveAvatar
     );
@@ -187,6 +225,8 @@ class App extends React.Component {
           userName={this.state.userName}
           wisdomMessage={this.state.wisdomObject}
           resetGame={this.resetGame}
+          inputError={this.state.inputError}
+          wisdomError={this.state.wisdomError}
         />
         {!this.state.modalVisible ? (
           <WisdomAPICall
@@ -211,6 +251,7 @@ class App extends React.Component {
               />
               <button
                 id="Up"
+                className="navButton up"
                 onClick={event => {
                   this.updateUserPosition("up", event);
                 }}
@@ -219,6 +260,7 @@ class App extends React.Component {
               </button>
               <button
                 id="Right"
+                className="navButton right"
                 onClick={event => {
                   this.updateUserPosition("right", event);
                 }}
@@ -227,6 +269,7 @@ class App extends React.Component {
               </button>
               <button
                 id="Down"
+                className="navButton down"
                 onClick={event => {
                   this.updateUserPosition("down", event);
                 }}
@@ -235,6 +278,7 @@ class App extends React.Component {
               </button>
               <button
                 id="Left"
+                className="navButton left"
                 onClick={event => {
                   this.updateUserPosition("left", event);
                 }}
