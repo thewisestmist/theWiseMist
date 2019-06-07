@@ -1,13 +1,12 @@
 import React from "react";
+import MistTile from "./MistTile.js";
 
 const StartModal = (props) => {
     return(
         <div className="startModal">
             <h1>The Wise Mist</h1>
-            <div className="mistContainer">
-                <img src="assets/wiseMist.png" className="wiseMist mist1" alt="The Wise Mist" />
-                <img src="./assets/wiseMist.png" className="wiseMist mist2" alt="The Wise Mist" />
-                <img src="./assets/wiseMist.png" className="wiseMist mist3" alt="The Wise Mist" />
+            <div className="mistModalWrap">
+                <MistTile />
             </div>
             <h3>Welcome, traveler.</h3>
             <p>Many come to seek The Wise Mist’s counsel, but it lives on the far side of a maze! If you make it through the labyrinth, you too can hear its wisdom. Before you begin, we will need your name, and one single word you may ask of The Wise Mist.</p>
