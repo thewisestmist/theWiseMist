@@ -22,9 +22,9 @@ const StartModal = (props) => {
                 {props.inputError || props.wisdomError ?
                 <div className="errorMessage">
                     {props.inputError ? 
-                    <p className="emptyInputError">INPUT SOMETHING!</p> : "" }
+                    <p className="emptyInputError">Please enter a name and a keyword.</p> : "" }
                     {props.wisdomError ?
-                    <p className="wisdomError">WRONG THING TYPED!</p> : "" }
+                    <p className="wisdomError">Please enter only one keyword.</p> : "" }
                 </div> : ""}
             </div>
             <button className="beginButton" onClick={() => props.hideModal()}>Begin your journey!</button>

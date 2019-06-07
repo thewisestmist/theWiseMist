@@ -10,7 +10,7 @@ const WinModal = (props) => {
       </div>
       <p>Congratulations, {props.userName}! Here is your wisdom from The Wise Mist:</p>
       <p>{props.wisdomMessage}</p>
-      <button onClick={() => props.resetGame()}>Play again?</button>
+      <button className="beginButton" onClick={() => props.resetGame()}>Play again?</button>
     </div>
   );
 }

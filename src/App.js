@@ -19,7 +19,7 @@ class App extends React.Component {
       userY: 0,
       mazeX: -13,
       mazeY: -13,
-      mazeTileSize: window.innerWidth * 0.053,
+      mazeTileSize: window.innerWidth * 0.06625,
       keysActive: true,
       wisdomError: false,
       inputError: false
@@ -41,7 +41,7 @@ class App extends React.Component {
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
     window.addEventListener("resize", () => {
-      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => {
+      this.setState({ mazeTileSize: window.innerWidth * 0.06625 }, () => {
         document.documentElement.style.setProperty(
           "--mazeTileSize",
           this.state.mazeTileSize + "px"
@@ -234,7 +234,7 @@ class App extends React.Component {
             getWisdom={this.getWisdom}
           />
         ) : (
-          ""
+          <></>
         )}
         <main className="AppContainer">
           <div className="wrapper">
@@ -249,42 +249,56 @@ class App extends React.Component {
                 className="visuallyHidden"
                 onKeyDown={this.handleKeyPress}
               />
-              <button
-                id="Up"
-                className="navButton up"
-                onClick={event => {
-                  this.updateUserPosition("up", event);
-                }}
-              >
-                Up
-              </button>
-              <button
-                id="Right"
-                className="navButton right"
-                onClick={event => {
-                  this.updateUserPosition("right", event);
-                }}
-              >
-                Right
-              </button>
-              <button
-                id="Down"
-                className="navButton down"
-                onClick={event => {
-                  this.updateUserPosition("down", event);
-                }}
-              >
-                Down
-              </button>
-              <button
-                id="Left"
-                className="navButton left"
-                onClick={event => {
-                  this.updateUserPosition("left", event);
-                }}
-              >
-                Left
-              </button>
+              <div className="buttonContainer">
+                <button
+                  id="Up"
+                  className="navButton up"
+                  onClick={event => {
+                    this.updateUserPosition("up", event);
+                  }}
+                >
+                  <i class="fas fa-angle-up" aria-hidden="true">
+                    <span className="visuallyHidden">up</span>
+                  </i>
+                </button>
+              </div>
+              <div className="buttonContainer">
+                <button
+                  id="Left"
+                  className="navButton left"
+                  onClick={event => {
+                    this.updateUserPosition("left", event);
+                  }}
+                >
+                  <i class="fas fa-angle-left" aria-hidden="true">
+                    <span className="visuallyHidden">left</span>
+                  </i>
+                </button>
+                <button
+                  id="Right"
+                  className="navButton right"
+                  onClick={event => {
+                    this.updateUserPosition("right", event);
+                  }}
+                >
+                  <i class="fas fa-angle-right" aria-hidden="true">
+                    <span className="visuallyHidden">right</span>
+                  </i>
+                </button>
+              </div>
+              <div className="buttonContainer">
+                <button
+                  id="Down"
+                  className="navButton down"
+                  onClick={event => {
+                    this.updateUserPosition("down", event);
+                  }}
+                >
+                  <i class="fas fa-angle-down" aria-hidden="true">
+                    <span className="visuallyHidden">down</span>
+                  </i>
+                </button>
+              </div>
             </div>
             <button
               onClick={() => {
