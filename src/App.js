@@ -246,6 +246,7 @@ class App extends React.Component {
               <input
                 type="button"
                 id="listener"
+                tabIndex="-1"
                 className="visuallyHidden"
                 onKeyDown={this.handleKeyPress}
               />

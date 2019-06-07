@@ -321,11 +321,30 @@ label {
   justify-content: center;
 }
 
-.buttonContainer button {
+.buttonContainer:first-of-type {
+  margin-top: 1rem;
+}
+
+.navButton {
+  appearance: none;
   display: block;
   width: 50px;
   height: 50px;
   margin: 0 2.0rem;
+  color: var(--color-electric-green);
+  text-shadow: 0 0 10px var(--color-electric-green);
+  border: 1px solid var(--color-electric-green);
+  box-shadow: 0 0 10px var(--color-electric-green);
+  background: var(--color-dark-purple);
+}
+
+.navButton:hover,
+.navButton:focus {
+  background: var(--color-bright-purple);
+}
+
+.navButton:active {
+  background: var(--color-background);
 }
 
 
