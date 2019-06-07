@@ -20,7 +20,9 @@ class App extends React.Component {
       mazeX: -1,
       mazeY: -1,
       mazeTileSize: window.innerWidth * 0.053,
-      keysActive: true
+      keysActive: true,
+      wisdomError: false,
+      inputError: false
     };
   }
 
@@ -64,9 +66,24 @@ class App extends React.Component {
   };
 
   hideModal = () => {
-    this.setState({
-      modalVisible: false
-    });
+    if (this.state.userName && this.state.wisdomKeyword) {
+      const regex = /^\b[a-zA-Z]+\b$/;
+      if (!this.state.wisdomKeyword.match(regex)) {
+        this.setState({
+          wisdomError: true,
+          inputError: false
+        })
+      } else {
+        this.setState({
+          modalVisible: false
+        });
+      }
+    } else {
+      this.setState({
+        inputError: true,
+        wisdomError: false
+      })
+    }
   };
 
   // !!!! work on it more!!!!!!
@@ -171,7 +188,9 @@ class App extends React.Component {
       mazeY: -1,
       userName: "",
       wisdomKeyword: "",
-      modalToShow: "start"
+      modalToShow: "start",
+      inputError: false,
+      wisdomError: false
     }, this.moveAvatar);
   }
 
@@ -196,6 +215,8 @@ class App extends React.Component {
           userName={this.state.userName}
           wisdomMessage={this.state.wisdomObject}
           resetGame={this.resetGame}
+          inputError={this.state.inputError}
+          wisdomError={this.state.wisdomError}
         />
         {!this.state.modalVisible ? (
           <WisdomAPICall
@@ -211,53 +232,57 @@ class App extends React.Component {
               <Maze maze={mazeMap} />
               <Avatar />
             </div>
-          <div>
-            <input
-              type="button"
-              id="listener"
-              className="visuallyHidden"
-              onKeyDown={this.handleKeyPress}
-            />
+            <div>
+              <input
+                type="button"
+                id="listener"
+                className="visuallyHidden"
+                onKeyDown={this.handleKeyPress}
+              />
+              <button
+                id="Up"
+                className="navButton up"
+                onClick={event => {
+                  this.updateUserPosition("up", event);
+                }}
+              >
+                Up
+              </button>
+              <button
+                id="Right"
+                className="navButton right"
+                onClick={event => {
+                  this.updateUserPosition("right", event);
+                }}
+              >
+                Right
+              </button>
+              <button
+                id="Down"
+                className="navButton down"
+                onClick={event => {
+                  this.updateUserPosition("down", event);
+                }}
+              >
+                Down
+              </button>
+              <button
+                id="Left"
+                className="navButton left"
+                onClick={event => {
+                  this.updateUserPosition("left", event);
+                }}
+              >
+                Left
+              </button>
+            </div>
             <button
-              id="Up"
-              onClick={event => {
-                this.updateUserPosition("up", event);
+              onClick={() => {
+                this.showModal("win");
               }}
             >
-              Up
+              test win modal
             </button>
-            <button
-              id="Right"
-              onClick={event => {
-                this.updateUserPosition("right", event);
-              }}
-            >
-              Right
-            </button>
-            <button
-              id="Down"
-              onClick={event => {
-                this.updateUserPosition("down", event);
-              }}
-            >
-              Down
-            </button>
-            <button
-              id="Left"
-              onClick={event => {
-                this.updateUserPosition("left", event);
-              }}
-            >
-              Left
-            </button>
-          </div>
-          <button
-            onClick={() => {
-              this.showModal("win");
-            }}
-          >
-            test win modal
-          </button>
           </div>
         </main>
       </div>

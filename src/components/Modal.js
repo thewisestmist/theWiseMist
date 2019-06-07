@@ -11,6 +11,8 @@ const Modal = props => {
       <StartModal
         hideModal={props.hideModal}
         handleChange={props.handleChange}
+        inputError={props.inputError}
+        wisdomError={props.wisdomError}
       />
     );
   } else if (props.modalToShow === "win") {

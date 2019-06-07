@@ -20,6 +20,13 @@ const StartModal = (props) => {
                     <label htmlFor="wisdomKeyword">Enter a word:</label>
                     <input onChange={props.handleChange} type="text" name="wisdomKeyword" id="wisdomKeyword"></input>
                 </div>
+                {props.inputError || props.wisdomError ?
+                <div className="errorMessage">
+                    {props.inputError ? 
+                    <p className="emptyInputError">INPUT SOMETHING!</p> : "" }
+                    {props.wisdomError ?
+                    <p className="wisdomError">WRONG THING TYPED!</p> : "" }
+                </div> : ""}
             </div>
             <button className="beginButton" onClick={() => props.hideModal()}>Begin your journey!</button>
         </div>
