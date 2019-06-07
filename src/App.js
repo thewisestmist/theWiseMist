@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      modalVisible: false,
+      modalVisible: true,
       modalToShow: "",
       wisdomObject: {},
       userName: "",
@@ -19,7 +19,8 @@ class App extends React.Component {
       userY: 0,
       mazeX: -1,
       mazeY: -1,
-      mazeTileSize: window.innerWidth * 0.053
+      mazeTileSize: window.innerWidth * 0.053,
+      keysActive: true
     };
   }
 
@@ -39,6 +40,20 @@ class App extends React.Component {
         document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
       })
     } );
+
+    //add event listener to see when player move is finished, 
+    document.addEventListener("transitionend", () => {
+      this.setState({
+        keysActive: true
+      })
+    })
+  }
+
+  componentWillUnmount() {
+    //clean up event listeners on component dismount
+    window.removeEventListener("keydown");
+    window.removeEventListener("resize");
+    document.removeEventListener("transitionend")
   }
 
   showModal = modalToShow => {
@@ -56,7 +71,7 @@ class App extends React.Component {
 
   // !!!! work on it more!!!!!!
   handleKeyPress = event => {
-    if (!this.state.modalVisible) {
+    if (!this.state.modalVisible && this.state.keysActive) {
       if (event.key === "ArrowUp") {
         this.updateUserPosition("up", event);
       } else if (event.key === "ArrowRight") {
@@ -78,7 +93,8 @@ class App extends React.Component {
             this.setState(
               {
                 userY: this.state.userY - 1,
-                mazeY: this.state.mazeY + 1
+                mazeY: this.state.mazeY + 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -91,7 +107,8 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX + 1,
-                mazeX: this.state.mazeX +1
+                mazeX: this.state.mazeX +1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -104,7 +121,8 @@ class App extends React.Component {
             this.setState(
               {
                 userY: this.state.userY + 1,
-                mazeY: this.state.mazeY - 1
+                mazeY: this.state.mazeY - 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -117,7 +135,8 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX - 1,
-                mazeX: this.state.mazeX - 1
+                mazeX: this.state.mazeX - 1,
+                keysActive: false
               },
               this.moveAvatar
             );
