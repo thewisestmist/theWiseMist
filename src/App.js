@@ -17,8 +17,8 @@ class App extends React.Component {
       wisdomKeyword: "",
       userX: 0,
       userY: 0,
-      mazeX: -1,
-      mazeY: -1,
+      mazeX: -13,
+      mazeY: -13,
       mazeTileSize: window.innerWidth * 0.053,
       keysActive: true,
       wisdomError: false,
@@ -28,34 +28,40 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setState({
-      userY: mazeMap.length-1
+      userY: mazeMap.length - 1
     });
-    document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
+    document.documentElement.style.setProperty(
+      "--mazeTileSize",
+      this.state.mazeTileSize + "px"
+    );
     const newX = this.state.mazeX * this.state.mazeTileSize;
     const newY = this.state.mazeY * this.state.mazeTileSize;
     document.documentElement.style.setProperty("--mazeX", newX + "px");
     document.documentElement.style.setProperty("--mazeY", newY + "px");
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
-    window.addEventListener("resize", () => { 
-      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => { 
-        document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
-      })
-    } );
+    window.addEventListener("resize", () => {
+      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => {
+        document.documentElement.style.setProperty(
+          "--mazeTileSize",
+          this.state.mazeTileSize + "px"
+        );
+      });
+    });
 
-    //add event listener to see when player move is finished, 
+    //add event listener to see when player move is finished,
     document.addEventListener("transitionend", () => {
       this.setState({
         keysActive: true
-      })
-    })
+      });
+    });
   }
 
   componentWillUnmount() {
     //clean up event listeners on component dismount
     window.removeEventListener("keydown");
     window.removeEventListener("resize");
-    document.removeEventListener("transitionend")
+    document.removeEventListener("transitionend");
   }
 
   showModal = modalToShow => {
@@ -72,7 +78,7 @@ class App extends React.Component {
         this.setState({
           wisdomError: true,
           inputError: false
-        })
+        });
       } else {
         this.setState({
           modalVisible: false
@@ -82,7 +88,7 @@ class App extends React.Component {
       this.setState({
         inputError: true,
         wisdomError: false
-      })
+      });
     }
   };
 
@@ -116,6 +122,7 @@ class App extends React.Component {
               this.moveAvatar
             );
           }
+          console.log("waiting");
         }
         break;
       case "right":
@@ -124,7 +131,7 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX + 1,
-                mazeX: this.state.mazeX +1,
+                mazeX: this.state.mazeX + 1,
                 keysActive: false
               },
               this.moveAvatar
@@ -181,18 +188,21 @@ class App extends React.Component {
   };
 
   resetGame = () => {
-    this.setState({
-      userX: 0,
-      userY: mazeMap.length-1,
-      mazeX: -1,
-      mazeY: -1,
-      userName: "",
-      wisdomKeyword: "",
-      modalToShow: "start",
-      inputError: false,
-      wisdomError: false
-    }, this.moveAvatar);
-  }
+    this.setState(
+      {
+        userX: 0,
+        userY: mazeMap.length - 1,
+        mazeX: -13,
+        mazeY: -13,
+        userName: "",
+        wisdomKeyword: "",
+        modalToShow: "start",
+        inputError: false,
+        wisdomError: false
+      },
+      this.moveAvatar
+    );
+  };
 
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
