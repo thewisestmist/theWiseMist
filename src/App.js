@@ -26,7 +26,7 @@ class App extends React.Component {
       userName: "",
       wisdomKeyword: "",
       userX: 0,
-      userY: 7
+      userY: 7,
     };
   }
 
@@ -72,7 +72,8 @@ class App extends React.Component {
           if (this.state.userY > 0) {
             if (this.state.maze[this.state.userY - 1][this.state.userX] === 0) {
               this.setState({
-                userY: this.state.userY - 1
+                userY: this.state.userY - 1,
+                move: "moveUp"
               }, this.moveAvatar);
             }
           }

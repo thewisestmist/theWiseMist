@@ -65,7 +65,9 @@ html {
   border: 1px solid black;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(8, 1fr)
+  grid-template-rows: repeat(8, 1fr);
+  transition: grid-column-start 2s, grid-row-start 2s;
+  
 }
 
 .tile{
@@ -77,6 +79,7 @@ html {
 .empty{
 
 }
+
 .filled {
   background: black;
 }
@@ -97,4 +100,9 @@ input {
   grid-column-end: span 1;
   grid-row-start: span 1;
   grid-row-end: var(--userY);
+  transition: grid-column-start 2s, grid-row-start 2s;
+  will-change: grid-column-start, grid-row-start;
 }
+
+
+
