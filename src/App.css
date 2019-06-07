@@ -58,6 +58,7 @@ h1 {
 
 h2 {
   font-size: 4.21rem;
+  margin: 2rem 0 0;
 }
 
 h3 {
@@ -79,6 +80,12 @@ h4 {
 }
 
 /* for spinning animation */
+.mistModalWrap {
+  margin: 0 auto;
+  width: 20vw;
+  height: 20vw;
+}
+
 .mistContainer {
   position: relative;
   width: 100%;
@@ -90,6 +97,7 @@ h4 {
   width: 100%;
   height: 100%;
   top: 0;
+  left: 0;
   pointer-events: none;
 }
 
