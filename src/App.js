@@ -17,28 +17,34 @@ class App extends React.Component {
       wisdomKeyword: "",
       userX: 0,
       userY: 0,
-      mazeX: -1,
-      mazeY: -1,
+      mazeX: -13,
+      mazeY: -13,
       mazeTileSize: window.innerWidth * 0.053
     };
   }
 
   componentDidMount() {
     this.setState({
-      userY: mazeMap.length-1
+      userY: mazeMap.length - 1
     });
-    document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
+    document.documentElement.style.setProperty(
+      "--mazeTileSize",
+      this.state.mazeTileSize + "px"
+    );
     const newX = this.state.mazeX * this.state.mazeTileSize;
     const newY = this.state.mazeY * this.state.mazeTileSize;
     document.documentElement.style.setProperty("--mazeX", newX + "px");
     document.documentElement.style.setProperty("--mazeY", newY + "px");
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
-    window.addEventListener("resize", () => { 
-      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => { 
-        document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
-      })
-    } );
+    window.addEventListener("resize", () => {
+      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => {
+        document.documentElement.style.setProperty(
+          "--mazeTileSize",
+          this.state.mazeTileSize + "px"
+        );
+      });
+    });
   }
 
   showModal = modalToShow => {
@@ -83,6 +89,7 @@ class App extends React.Component {
               this.moveAvatar
             );
           }
+          console.log("waiting");
         }
         break;
       case "right":
@@ -91,7 +98,7 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX + 1,
-                mazeX: this.state.mazeX +1
+                mazeX: this.state.mazeX + 1
               },
               this.moveAvatar
             );
@@ -145,16 +152,19 @@ class App extends React.Component {
   };
 
   resetGame = () => {
-    this.setState({
-      userX: 0,
-      userY: mazeMap.length-1,
-      mazeX: -1,
-      mazeY: -1,
-      userName: "",
-      wisdomKeyword: "",
-      modalToShow: "start"
-    }, this.moveAvatar);
-  }
+    this.setState(
+      {
+        userX: 0,
+        userY: mazeMap.length - 1,
+        mazeX: -13,
+        mazeY: -13,
+        userName: "",
+        wisdomKeyword: "",
+        modalToShow: "start"
+      },
+      this.moveAvatar
+    );
+  };
 
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
@@ -192,53 +202,53 @@ class App extends React.Component {
               <Maze maze={mazeMap} />
               <Avatar />
             </div>
-          <div>
-            <input
-              type="button"
-              id="listener"
-              className="visuallyHidden"
-              onKeyDown={this.handleKeyPress}
-            />
+            <div>
+              <input
+                type="button"
+                id="listener"
+                className="visuallyHidden"
+                onKeyDown={this.handleKeyPress}
+              />
+              <button
+                id="Up"
+                onClick={event => {
+                  this.updateUserPosition("up", event);
+                }}
+              >
+                Up
+              </button>
+              <button
+                id="Right"
+                onClick={event => {
+                  this.updateUserPosition("right", event);
+                }}
+              >
+                Right
+              </button>
+              <button
+                id="Down"
+                onClick={event => {
+                  this.updateUserPosition("down", event);
+                }}
+              >
+                Down
+              </button>
+              <button
+                id="Left"
+                onClick={event => {
+                  this.updateUserPosition("left", event);
+                }}
+              >
+                Left
+              </button>
+            </div>
             <button
-              id="Up"
-              onClick={event => {
-                this.updateUserPosition("up", event);
+              onClick={() => {
+                this.showModal("win");
               }}
             >
-              Up
+              test win modal
             </button>
-            <button
-              id="Right"
-              onClick={event => {
-                this.updateUserPosition("right", event);
-              }}
-            >
-              Right
-            </button>
-            <button
-              id="Down"
-              onClick={event => {
-                this.updateUserPosition("down", event);
-              }}
-            >
-              Down
-            </button>
-            <button
-              id="Left"
-              onClick={event => {
-                this.updateUserPosition("left", event);
-              }}
-            >
-              Left
-            </button>
-          </div>
-          <button
-            onClick={() => {
-              this.showModal("win");
-            }}
-          >
-            test win modal
-          </button>
           </div>
         </main>
       </div>
