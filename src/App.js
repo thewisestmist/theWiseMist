@@ -10,35 +10,58 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      modalVisible: false,
+      modalVisible: true,
       modalToShow: "",
       wisdomObject: {},
       userName: "",
       wisdomKeyword: "",
       userX: 0,
       userY: 0,
-      mazeX: -1,
-      mazeY: -1,
-      mazeTileSize: window.innerWidth * 0.053
+      mazeX: -13,
+      mazeY: -13,
+      mazeTileSize: window.innerWidth * 0.06625,
+      keysActive: true,
+      wisdomError: false,
+      inputError: false
     };
   }
 
   componentDidMount() {
     this.setState({
-      userY: mazeMap.length-1
+      userY: mazeMap.length - 1
     });
-    document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
+    document.documentElement.style.setProperty(
+      "--mazeTileSize",
+      this.state.mazeTileSize + "px"
+    );
     const newX = this.state.mazeX * this.state.mazeTileSize;
     const newY = this.state.mazeY * this.state.mazeTileSize;
     document.documentElement.style.setProperty("--mazeX", newX + "px");
     document.documentElement.style.setProperty("--mazeY", newY + "px");
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
-    window.addEventListener("resize", () => { 
-      this.setState({ mazeTileSize: window.innerWidth * 0.053 }, () => { 
-        document.documentElement.style.setProperty("--mazeTileSize", this.state.mazeTileSize + "px");
-      })
-    } );
+    window.addEventListener("resize", () => {
+      this.setState({ mazeTileSize: window.innerWidth * 0.06625 }, () => {
+        document.documentElement.style.setProperty(
+          "--mazeTileSize",
+          this.state.mazeTileSize + "px"
+        );
+      });
+    });
+
+    //add event listener to see when player move is finished,
+    document.addEventListener("transitionend", () => {
+      this.setState({
+        keysActive: true
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    //clean up event listeners on component dismount
+    window.removeEventListener("keydown");
+    window.removeEventListener("resize");
+    document.removeEventListener("transitionend");
   }
 
   showModal = modalToShow => {
@@ -49,14 +72,29 @@ class App extends React.Component {
   };
 
   hideModal = () => {
-    this.setState({
-      modalVisible: false
-    });
+    if (this.state.userName && this.state.wisdomKeyword) {
+      const regex = /^\b[a-zA-Z]+\b$/;
+      if (!this.state.wisdomKeyword.match(regex)) {
+        this.setState({
+          wisdomError: true,
+          inputError: false
+        });
+      } else {
+        this.setState({
+          modalVisible: false
+        });
+      }
+    } else {
+      this.setState({
+        inputError: true,
+        wisdomError: false
+      });
+    }
   };
 
   // !!!! work on it more!!!!!!
   handleKeyPress = event => {
-    if (!this.state.modalVisible) {
+    if (!this.state.modalVisible && this.state.keysActive) {
       if (event.key === "ArrowUp") {
         this.updateUserPosition("up", event);
       } else if (event.key === "ArrowRight") {
@@ -78,11 +116,13 @@ class App extends React.Component {
             this.setState(
               {
                 userY: this.state.userY - 1,
-                mazeY: this.state.mazeY + 1
+                mazeY: this.state.mazeY + 1,
+                keysActive: false
               },
               this.moveAvatar
             );
           }
+          console.log("waiting");
         }
         break;
       case "right":
@@ -91,7 +131,8 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX + 1,
-                mazeX: this.state.mazeX +1
+                mazeX: this.state.mazeX + 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -104,7 +145,8 @@ class App extends React.Component {
             this.setState(
               {
                 userY: this.state.userY + 1,
-                mazeY: this.state.mazeY - 1
+                mazeY: this.state.mazeY - 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -117,7 +159,8 @@ class App extends React.Component {
             this.setState(
               {
                 userX: this.state.userX - 1,
-                mazeX: this.state.mazeX - 1
+                mazeX: this.state.mazeX - 1,
+                keysActive: false
               },
               this.moveAvatar
             );
@@ -145,16 +188,21 @@ class App extends React.Component {
   };
 
   resetGame = () => {
-    this.setState({
-      userX: 0,
-      userY: mazeMap.length-1,
-      mazeX: -1,
-      mazeY: -1,
-      userName: "",
-      wisdomKeyword: "",
-      modalToShow: "start"
-    }, this.moveAvatar);
-  }
+    this.setState(
+      {
+        userX: 0,
+        userY: mazeMap.length - 1,
+        mazeX: -13,
+        mazeY: -13,
+        userName: "",
+        wisdomKeyword: "",
+        modalToShow: "start",
+        inputError: false,
+        wisdomError: false
+      },
+      this.moveAvatar
+    );
+  };
 
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
@@ -177,6 +225,8 @@ class App extends React.Component {
           userName={this.state.userName}
           wisdomMessage={this.state.wisdomObject}
           resetGame={this.resetGame}
+          inputError={this.state.inputError}
+          wisdomError={this.state.wisdomError}
         />
         {!this.state.modalVisible ? (
           <WisdomAPICall
@@ -184,7 +234,7 @@ class App extends React.Component {
             getWisdom={this.getWisdom}
           />
         ) : (
-          ""
+          <></>
         )}
         <main className="AppContainer">
           <div className="wrapper">
@@ -192,53 +242,72 @@ class App extends React.Component {
               <Maze maze={mazeMap} />
               <Avatar />
             </div>
-          <div>
-            <input
-              type="button"
-              id="listener"
-              className="visuallyHidden"
-              onKeyDown={this.handleKeyPress}
-            />
+            <div>
+              <input
+                type="button"
+                id="listener"
+                tabIndex="-1"
+                className="visuallyHidden"
+                onKeyDown={this.handleKeyPress}
+              />
+              <div className="buttonContainer">
+                <button
+                  id="Up"
+                  className="navButton up"
+                  onClick={event => {
+                    this.updateUserPosition("up", event);
+                  }}
+                >
+                  <i className="fas fa-angle-up" aria-hidden="true">
+                    <span className="visuallyHidden">up</span>
+                  </i>
+                </button>
+              </div>
+              <div className="buttonContainer">
+                <button
+                  id="Left"
+                  className="navButton left"
+                  onClick={event => {
+                    this.updateUserPosition("left", event);
+                  }}
+                >
+                  <i className="fas fa-angle-left" aria-hidden="true">
+                    <span className="visuallyHidden">left</span>
+                  </i>
+                </button>
+                <button
+                  id="Right"
+                  className="navButton right"
+                  onClick={event => {
+                    this.updateUserPosition("right", event);
+                  }}
+                >
+                  <i className="fas fa-angle-right" aria-hidden="true">
+                    <span className="visuallyHidden">right</span>
+                  </i>
+                </button>
+              </div>
+              <div className="buttonContainer">
+                <button
+                  id="Down"
+                  className="navButton down"
+                  onClick={event => {
+                    this.updateUserPosition("down", event);
+                  }}
+                >
+                  <i className="fas fa-angle-down" aria-hidden="true">
+                    <span className="visuallyHidden">down</span>
+                  </i>
+                </button>
+              </div>
+            </div>
             <button
-              id="Up"
-              onClick={event => {
-                this.updateUserPosition("up", event);
+              onClick={() => {
+                this.showModal("win");
               }}
             >
-              Up
+              test win modal
             </button>
-            <button
-              id="Right"
-              onClick={event => {
-                this.updateUserPosition("right", event);
-              }}
-            >
-              Right
-            </button>
-            <button
-              id="Down"
-              onClick={event => {
-                this.updateUserPosition("down", event);
-              }}
-            >
-              Down
-            </button>
-            <button
-              id="Left"
-              onClick={event => {
-                this.updateUserPosition("left", event);
-              }}
-            >
-              Left
-            </button>
-          </div>
-          <button
-            onClick={() => {
-              this.showModal("win");
-            }}
-          >
-            test win modal
-          </button>
           </div>
         </main>
       </div>
