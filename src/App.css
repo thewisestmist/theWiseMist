@@ -101,7 +101,6 @@ h4 {
   margin: 0 auto;
   width: 100%;
   max-width: 1000px;
-  /* padding-top: 2.0rem; */
 }
 
 /* for spinning animation */
@@ -212,8 +211,10 @@ h4 {
   overflow: hidden;
   width: 100vw;
   height: 100vw;
-  border: 1px solid black;
-  background-color: black;
+  border: 1px solid var(--color-bright-purple);
+  box-shadow: 0 0 16px var(--color-bright-purple);
+  background: var(--color-background) url("./assets/mistDirection.png") left bottom no-repeat;
+
 }
 
 .mazeBoard{
@@ -227,11 +228,12 @@ h4 {
   right: var(--mazeX);
   top: var(--mazeY);
   transition: all .2s linear;
-  border: 1px solid white;
+  border: 1px solid var(--color-electric-green);
+  box-shadow: 0 0 16px var(--color-electric-green);
 }
 
 .tile{
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
   height: 100%;
 }
@@ -248,12 +250,13 @@ h4 {
   
 }
 
-.empty {
-  background:white
+.empty,
+.mist {
+  background: var(--color-dark-purple);
 }
 
 .filled {
-  background:black;
+  background: var(--color-teal);
 }
 
 
