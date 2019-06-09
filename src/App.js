@@ -5,6 +5,7 @@ import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
 import mazeMap from "./mazeMap.js";
 import Avatar from "./components/Avatar.js";
+import Controller from './components/Controller'
 
 class App extends React.Component {
   constructor() {
@@ -17,12 +18,14 @@ class App extends React.Component {
       wisdomKeyword: "",
       userX: 0,
       userY: 0,
-      mazeX: -13,
-      mazeY: -13,
-      mazeTileSize: window.innerWidth * 0.06625,
+      // this number is from 58% / 5.3% (58% is where the avatar is centered)
+      mazeX: -10.943,
+      mazeY: -10.943,
+      mazeTileSize: 0,
       keysActive: true,
       wisdomError: false,
-      inputError: false
+      inputError: false,
+      avatarDirection: "down"
     };
   }
 
@@ -30,24 +33,16 @@ class App extends React.Component {
     this.setState({
       userY: mazeMap.length - 1
     });
-    document.documentElement.style.setProperty(
-      "--mazeTileSize",
-      this.state.mazeTileSize + "px"
-    );
-    const newX = this.state.mazeX * this.state.mazeTileSize;
-    const newY = this.state.mazeY * this.state.mazeTileSize;
-    document.documentElement.style.setProperty("--mazeX", newX + "px");
-    document.documentElement.style.setProperty("--mazeY", newY + "px");
+    
+    this.setTileSize();
+    console.log(this.state.mazeX, this.state.mazeY, this.state.mazeTileSize);
+    
+    window.addEventListener("resize", () => {
+     this.setTileSize();
+    });
+
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
-    window.addEventListener("resize", () => {
-      this.setState({ mazeTileSize: window.innerWidth * 0.06625 }, () => {
-        document.documentElement.style.setProperty(
-          "--mazeTileSize",
-          this.state.mazeTileSize + "px"
-        );
-      });
-    });
 
     //add event listener to see when player move is finished,
     document.addEventListener("transitionend", () => {
@@ -62,6 +57,32 @@ class App extends React.Component {
     window.removeEventListener("keydown");
     window.removeEventListener("resize");
     document.removeEventListener("transitionend");
+  }
+
+  setTileSize = () => {
+    if (window.innerWidth < 768) {
+      this.setState({
+        mazeTileSize: 0.06625,
+        // this number is from 84% / 6.625% (84% is where the avatar is centered)
+        mazeX: -12.679,
+        mazeY: -12.679
+      }, this.positionMaze)   
+    } else {
+      this.setState({
+        mazeTileSize: 0.053,
+        mazeX: -10.943,
+        mazeY: -10.943
+      }, this.positionMaze)
+    }
+  }
+
+  positionMaze = () => {
+    const newX = this.state.mazeX * this.state.mazeTileSize * 100;
+    const newY = this.state.mazeY * this.state.mazeTileSize * 100;
+
+    document.documentElement.style.setProperty("--mazeX", newX + "%");
+    document.documentElement.style.setProperty("--mazeY", newY + "%");
+    console.log(this.state.mazeX, this.state.mazeY, this.state.mazeTileSize);
   }
 
   showModal = modalToShow => {
@@ -92,7 +113,6 @@ class App extends React.Component {
     }
   };
 
-  // !!!! work on it more!!!!!!
   handleKeyPress = event => {
     if (!this.state.modalVisible && this.state.keysActive) {
       if (event.key === "ArrowUp") {
@@ -117,12 +137,12 @@ class App extends React.Component {
               {
                 userY: this.state.userY - 1,
                 mazeY: this.state.mazeY + 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "up"
               },
               this.moveAvatar
             );
           }
-          console.log("waiting");
         }
         break;
       case "right":
@@ -132,7 +152,8 @@ class App extends React.Component {
               {
                 userX: this.state.userX + 1,
                 mazeX: this.state.mazeX + 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "right"
               },
               this.moveAvatar
             );
@@ -146,7 +167,8 @@ class App extends React.Component {
               {
                 userY: this.state.userY + 1,
                 mazeY: this.state.mazeY - 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "down"
               },
               this.moveAvatar
             );
@@ -160,7 +182,8 @@ class App extends React.Component {
               {
                 userX: this.state.userX - 1,
                 mazeX: this.state.mazeX - 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "left"
               },
               this.moveAvatar
             );
@@ -168,16 +191,15 @@ class App extends React.Component {
         }
         break;
       default:
-        console.log("sup");
         break;
     }
   };
 
   moveAvatar = () => {
-    const newX = this.state.mazeX * this.state.mazeTileSize;
-    const newY = this.state.mazeY * this.state.mazeTileSize;
-    document.documentElement.style.setProperty("--mazeX", newX + "px");
-    document.documentElement.style.setProperty("--mazeY", newY + "px");
+    const newX = this.state.mazeX * this.state.mazeTileSize * 100;
+    const newY = this.state.mazeY * this.state.mazeTileSize * 100;
+    document.documentElement.style.setProperty("--mazeX", newX + "%");
+    document.documentElement.style.setProperty("--mazeY", newY + "%");
     this.checkCurrentPosition();
   };
 
@@ -192,15 +214,13 @@ class App extends React.Component {
       {
         userX: 0,
         userY: mazeMap.length - 1,
-        mazeX: -13,
-        mazeY: -13,
         userName: "",
         wisdomKeyword: "",
         modalToShow: "start",
         inputError: false,
         wisdomError: false
       },
-      this.moveAvatar
+      () => {this.moveAvatar(); this.setTileSize()}
     );
   };
 
@@ -240,67 +260,11 @@ class App extends React.Component {
           <div className="wrapper">
             <div className="mazeWindow">
               <Maze maze={mazeMap} />
-              <Avatar />
+              <Avatar avatarDirection={this.state.avatarDirection}/>
             </div>
-            <div>
-              <input
-                type="button"
-                id="listener"
-                tabIndex="-1"
-                className="visuallyHidden"
-                onKeyDown={this.handleKeyPress}
-              />
-              <div className="buttonContainer">
-                <button
-                  id="Up"
-                  className="navButton up"
-                  onClick={event => {
-                    this.updateUserPosition("up", event);
-                  }}
-                >
-                  <i className="fas fa-angle-up" aria-hidden="true">
-                    <span className="visuallyHidden">up</span>
-                  </i>
-                </button>
-              </div>
-              <div className="buttonContainer">
-                <button
-                  id="Left"
-                  className="navButton left"
-                  onClick={event => {
-                    this.updateUserPosition("left", event);
-                  }}
-                >
-                  <i className="fas fa-angle-left" aria-hidden="true">
-                    <span className="visuallyHidden">left</span>
-                  </i>
-                </button>
-                <button
-                  id="Right"
-                  className="navButton right"
-                  onClick={event => {
-                    this.updateUserPosition("right", event);
-                  }}
-                >
-                  <i className="fas fa-angle-right" aria-hidden="true">
-                    <span className="visuallyHidden">right</span>
-                  </i>
-                </button>
-              </div>
-              <div className="buttonContainer">
-                <button
-                  id="Down"
-                  className="navButton down"
-                  onClick={event => {
-                    this.updateUserPosition("down", event);
-                  }}
-                >
-                  <i className="fas fa-angle-down" aria-hidden="true">
-                    <span className="visuallyHidden">down</span>
-                  </i>
-                </button>
-              </div>
-            </div>
+            <Controller updateUserPosition={this.updateUserPosition}
+              onKeyDown={this.handleKeyPress} />
+            <p className="instruction">Use arrow keys to navigate.</p>
             <button
               onClick={() => {
                 this.showModal("win");

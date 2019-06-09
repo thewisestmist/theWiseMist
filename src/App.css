@@ -14,7 +14,6 @@ html {
   --userY: -1; */
   --mazeX: calc(35px * -1);
   --mazeY: calc(35px * -1);
-  --mazeTileSize: 35px;
   
   --color-background: rgb(28, 4, 52);
   --color-dark-purple: rgb(41, 5, 77);
@@ -64,6 +63,11 @@ p {
   text-shadow: 0 0 3px var(--color-off-white);
 }
 
+.instruction {
+  display: none;
+  text-align: center;
+}
+
 h1,
 h2,
 h3,
@@ -101,7 +105,6 @@ h4 {
   margin: 0 auto;
   width: 100%;
   max-width: 1000px;
-  /* padding-top: 2.0rem; */
 }
 
 /* for spinning animation */
@@ -212,8 +215,10 @@ h4 {
   overflow: hidden;
   width: 100vw;
   height: 100vw;
-  border: 1px solid black;
-  background-color: black;
+  border: 1px solid var(--color-bright-purple);
+  box-shadow: 0 0 16px var(--color-bright-purple);
+  background: var(--color-background) url("./assets/mistDirection.png") left bottom no-repeat;
+
 }
 
 .mazeBoard{
@@ -227,11 +232,12 @@ h4 {
   right: var(--mazeX);
   top: var(--mazeY);
   transition: all .2s linear;
-  border: 1px solid white;
+  border: 1px solid var(--color-electric-green);
+  box-shadow: 0 0 16px var(--color-electric-green);
 }
 
 .tile{
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
   height: 100%;
 }
@@ -248,12 +254,13 @@ h4 {
   
 }
 
-.empty {
-  background:white
+.empty,
+.mist {
+  background: var(--color-dark-purple);
 }
 
 .filled {
-  background:black;
+  background: var(--color-teal);
 }
 
 
@@ -350,7 +357,7 @@ label {
 
 
 .avatar {
-    background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png");
+    /* background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png"); */
     width: 36px;
     height: 35px;
     position: absolute;
@@ -361,12 +368,54 @@ label {
     z-index: 5;
 }
   
-/* Media Queries beign */
+/* Media Queries begin */
 @media (min-width: 768px) {
   .mazeWindow {
     width: 80vw;
+    max-width: 900px;
     height: 80vw;
+    max-height: 900px;
   }
   /* this resets the mazeWindow to 80% width, but it breaks the maze layout, so we have to change the
   multiplier in the code so everything still gets placed properly. */
+
+  .startModalInputContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .errorMessage {
+    flex-basis: 100%;
+  }
+
+  .mazeBoard {
+    width: 111.3%;
+    height: 111.3%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .startModal,
+  .winModal {
+    width: 80%;
+    max-width: 850px;
+    margin: 2rem auto;
+    min-height: auto;
+  }
+
+  .mistModalWrap {
+    width: 40vw;
+    max-width: 500px;
+    height: 40vw;
+    max-height: 500px;
+  }
+
+  .instruction {
+    display: block;
+  }
+
+  .buttonContainer {
+    display: none;
+  }
 }
