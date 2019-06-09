@@ -14,7 +14,6 @@ html {
   --userY: -1; */
   --mazeX: calc(35px * -1);
   --mazeY: calc(35px * -1);
-  --mazeTileSize: 35px;
   
   --color-background: rgb(28, 4, 52);
   --color-dark-purple: rgb(41, 5, 77);
@@ -62,6 +61,11 @@ p {
   font-size: 1.3rem;
   line-height: 1.5;
   text-shadow: 0 0 3px var(--color-off-white);
+}
+
+.instruction {
+  display: none;
+  text-align: center;
 }
 
 h1,
@@ -364,12 +368,54 @@ label {
     z-index: 5;
 }
   
-/* Media Queries beign */
+/* Media Queries begin */
 @media (min-width: 768px) {
   .mazeWindow {
     width: 80vw;
+    max-width: 900px;
     height: 80vw;
+    max-height: 900px;
   }
   /* this resets the mazeWindow to 80% width, but it breaks the maze layout, so we have to change the
   multiplier in the code so everything still gets placed properly. */
+
+  .startModalInputContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .errorMessage {
+    flex-basis: 100%;
+  }
+
+  .mazeBoard {
+    width: 111.3%;
+    height: 111.3%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .startModal,
+  .winModal {
+    width: 80%;
+    max-width: 850px;
+    margin: 2rem auto;
+    min-height: auto;
+  }
+
+  .mistModalWrap {
+    width: 40vw;
+    max-width: 500px;
+    height: 40vw;
+    max-height: 500px;
+  }
+
+  .instruction {
+    display: block;
+  }
+
+  .buttonContainer {
+    display: none;
+  }
 }

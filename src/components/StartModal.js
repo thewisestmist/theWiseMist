@@ -13,7 +13,7 @@ const StartModal = (props) => {
             <div className="startModalInputContainer">
                 <div className="inputWrapper">
                     <label htmlFor="userName">Enter your name:</label>
-                    <input onChange={props.handleChange} type="text" name="userName" id="userName"></input>
+                    <input onChange={props.handleChange} type="text" name="userName" id="userName" maxLength="30"></input>
                 </div>
                 <div className="inputWrapper">
                     <label htmlFor="wisdomKeyword">Enter a word:</label>

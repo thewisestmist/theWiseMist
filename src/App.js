@@ -18,9 +18,10 @@ class App extends React.Component {
       wisdomKeyword: "",
       userX: 0,
       userY: 0,
-      mazeX: -13,
-      mazeY: -13,
-      mazeTileSize: window.innerWidth * 0.06625,
+      // this number is from 58% / 5.3% (58% is where the avatar is centered)
+      mazeX: -10.943,
+      mazeY: -10.943,
+      mazeTileSize: 0,
       keysActive: true,
       wisdomError: false,
       inputError: false
@@ -31,24 +32,16 @@ class App extends React.Component {
     this.setState({
       userY: mazeMap.length - 1
     });
-    document.documentElement.style.setProperty(
-      "--mazeTileSize",
-      this.state.mazeTileSize + "px"
-    );
-    const newX = this.state.mazeX * this.state.mazeTileSize;
-    const newY = this.state.mazeY * this.state.mazeTileSize;
-    document.documentElement.style.setProperty("--mazeX", newX + "px");
-    document.documentElement.style.setProperty("--mazeY", newY + "px");
+    
+    this.setTileSize();
+    console.log(this.state.mazeX, this.state.mazeY, this.state.mazeTileSize);
+    
+    window.addEventListener("resize", () => {
+     this.setTileSize();
+    });
+
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
-    window.addEventListener("resize", () => {
-      this.setState({ mazeTileSize: window.innerWidth * 0.06625 }, () => {
-        document.documentElement.style.setProperty(
-          "--mazeTileSize",
-          this.state.mazeTileSize + "px"
-        );
-      });
-    });
 
     //add event listener to see when player move is finished,
     document.addEventListener("transitionend", () => {
@@ -63,6 +56,32 @@ class App extends React.Component {
     window.removeEventListener("keydown");
     window.removeEventListener("resize");
     document.removeEventListener("transitionend");
+  }
+
+  setTileSize = () => {
+    if (window.innerWidth < 768) {
+      this.setState({
+        mazeTileSize: 0.06625,
+        // this number is from 84% / 6.625% (84% is where the avatar is centered)
+        mazeX: -12.679,
+        mazeY: -12.679
+      }, this.positionMaze)   
+    } else {
+      this.setState({
+        mazeTileSize: 0.053,
+        mazeX: -10.943,
+        mazeY: -10.943
+      }, this.positionMaze)
+    }
+  }
+
+  positionMaze = () => {
+    const newX = this.state.mazeX * this.state.mazeTileSize * 100;
+    const newY = this.state.mazeY * this.state.mazeTileSize * 100;
+
+    document.documentElement.style.setProperty("--mazeX", newX + "%");
+    document.documentElement.style.setProperty("--mazeY", newY + "%");
+    console.log(this.state.mazeX, this.state.mazeY, this.state.mazeTileSize);
   }
 
   showModal = modalToShow => {
@@ -93,7 +112,6 @@ class App extends React.Component {
     }
   };
 
-  // !!!! work on it more!!!!!!
   handleKeyPress = event => {
     if (!this.state.modalVisible && this.state.keysActive) {
       if (event.key === "ArrowUp") {
@@ -123,7 +141,6 @@ class App extends React.Component {
               this.moveAvatar
             );
           }
-          console.log("waiting");
         }
         break;
       case "right":
@@ -169,16 +186,15 @@ class App extends React.Component {
         }
         break;
       default:
-        console.log("sup");
         break;
     }
   };
 
   moveAvatar = () => {
-    const newX = this.state.mazeX * this.state.mazeTileSize;
-    const newY = this.state.mazeY * this.state.mazeTileSize;
-    document.documentElement.style.setProperty("--mazeX", newX + "px");
-    document.documentElement.style.setProperty("--mazeY", newY + "px");
+    const newX = this.state.mazeX * this.state.mazeTileSize * 100;
+    const newY = this.state.mazeY * this.state.mazeTileSize * 100;
+    document.documentElement.style.setProperty("--mazeX", newX + "%");
+    document.documentElement.style.setProperty("--mazeY", newY + "%");
     this.checkCurrentPosition();
   };
 
@@ -193,15 +209,13 @@ class App extends React.Component {
       {
         userX: 0,
         userY: mazeMap.length - 1,
-        mazeX: -13,
-        mazeY: -13,
         userName: "",
         wisdomKeyword: "",
         modalToShow: "start",
         inputError: false,
         wisdomError: false
       },
-      this.moveAvatar
+      () => {this.moveAvatar(); this.setTileSize()}
     );
   };
 
@@ -245,7 +259,7 @@ class App extends React.Component {
             </div>
             <Controller updateUserPosition={this.updateUserPosition}
               onKeyDown={this.handleKeyPress} />
-
+            <p className="instruction">Use arrow keys to navigate.</p>
             <button
               onClick={() => {
                 this.showModal("win");
