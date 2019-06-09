@@ -5,6 +5,7 @@ import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
 import mazeMap from "./mazeMap.js";
 import Avatar from "./components/Avatar.js";
+import Controller from './components/Controller'
 
 class App extends React.Component {
   constructor() {
@@ -242,65 +243,9 @@ class App extends React.Component {
               <Maze maze={mazeMap} />
               <Avatar />
             </div>
-            <div>
-              <input
-                type="button"
-                id="listener"
-                tabIndex="-1"
-                className="visuallyHidden"
-                onKeyDown={this.handleKeyPress}
-              />
-              <div className="buttonContainer">
-                <button
-                  id="Up"
-                  className="navButton up"
-                  onClick={event => {
-                    this.updateUserPosition("up", event);
-                  }}
-                >
-                  <i className="fas fa-angle-up" aria-hidden="true">
-                    <span className="visuallyHidden">up</span>
-                  </i>
-                </button>
-              </div>
-              <div className="buttonContainer">
-                <button
-                  id="Left"
-                  className="navButton left"
-                  onClick={event => {
-                    this.updateUserPosition("left", event);
-                  }}
-                >
-                  <i className="fas fa-angle-left" aria-hidden="true">
-                    <span className="visuallyHidden">left</span>
-                  </i>
-                </button>
-                <button
-                  id="Right"
-                  className="navButton right"
-                  onClick={event => {
-                    this.updateUserPosition("right", event);
-                  }}
-                >
-                  <i className="fas fa-angle-right" aria-hidden="true">
-                    <span className="visuallyHidden">right</span>
-                  </i>
-                </button>
-              </div>
-              <div className="buttonContainer">
-                <button
-                  id="Down"
-                  className="navButton down"
-                  onClick={event => {
-                    this.updateUserPosition("down", event);
-                  }}
-                >
-                  <i className="fas fa-angle-down" aria-hidden="true">
-                    <span className="visuallyHidden">down</span>
-                  </i>
-                </button>
-              </div>
-            </div>
+            <Controller updateUserPosition={this.updateUserPosition}
+              onKeyDown={this.handleKeyPress} />
+
             <button
               onClick={() => {
                 this.showModal("win");
