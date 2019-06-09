@@ -357,7 +357,7 @@ label {
 
 
 .avatar {
-    background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png");
+    /* background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png"); */
     width: 36px;
     height: 35px;
     position: absolute;

@@ -24,7 +24,8 @@ class App extends React.Component {
       mazeTileSize: 0,
       keysActive: true,
       wisdomError: false,
-      inputError: false
+      inputError: false,
+      avatarDirection: "down"
     };
   }
 
@@ -136,7 +137,8 @@ class App extends React.Component {
               {
                 userY: this.state.userY - 1,
                 mazeY: this.state.mazeY + 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "up"
               },
               this.moveAvatar
             );
@@ -150,7 +152,8 @@ class App extends React.Component {
               {
                 userX: this.state.userX + 1,
                 mazeX: this.state.mazeX + 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "right"
               },
               this.moveAvatar
             );
@@ -164,7 +167,8 @@ class App extends React.Component {
               {
                 userY: this.state.userY + 1,
                 mazeY: this.state.mazeY - 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "down"
               },
               this.moveAvatar
             );
@@ -178,7 +182,8 @@ class App extends React.Component {
               {
                 userX: this.state.userX - 1,
                 mazeX: this.state.mazeX - 1,
-                keysActive: false
+                keysActive: false,
+                avatarDirection: "left"
               },
               this.moveAvatar
             );
@@ -255,7 +260,7 @@ class App extends React.Component {
           <div className="wrapper">
             <div className="mazeWindow">
               <Maze maze={mazeMap} />
-              <Avatar />
+              <Avatar avatarDirection={this.state.avatarDirection}/>
             </div>
             <Controller updateUserPosition={this.updateUserPosition}
               onKeyDown={this.handleKeyPress} />
