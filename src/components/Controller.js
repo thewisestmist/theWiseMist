@@ -1,5 +1,6 @@
 import React from 'react'
 
+// this is the directional pad that only shows on mobile
 const Controller = (props) => {
     return (
         <div>

@@ -20,8 +20,8 @@ class App extends React.Component {
       wisdomKeyword: "",
       userX: 0,
       userY: mazeMap.length - 1,
-      // mazeWindow is always 15x15 tiles, so to center the map the initial position of maze map is
-      // 8 x 8
+      // mazeWindow is always 15x15 tiles, so to center the map 
+      // the initial position of maze map is 8 x 8
       mazeX: 8,
       mazeY: 8,
       keysActive: true,
@@ -31,11 +31,13 @@ class App extends React.Component {
       mazeMap: mazeMap
     };
   }
+
+  // controls the timing of shifting maze walls
   alternator = () => {
     setInterval( () =>
     this.setState({
       mazeMap: mazeMap
-    }), 1000
+    }), 3000
     );
     setInterval(() =>
       this.setState({
@@ -45,14 +47,19 @@ class App extends React.Component {
     setInterval(() =>
       this.setState({
         mazeMap: obstacleSetTwo
-      }), 3000
+      }), 1000
     )
   }
-  componentDidMount() {
-    this.moveAvatar();
-    this.alternator();
 
+  // on first page load
+  componentDidMount() {
+    // center the map on the current user x,y position
+    this.moveAvatar();
+    // turn on the shifting maze walls
+    this.alternator();
+    // display beginning message
     this.showModal("start");
+    // add event listeners for key presses
     window.addEventListener("keydown", this.handleKeyPress);
 
     //add event listener to see when player move is finished,
@@ -66,10 +73,11 @@ class App extends React.Component {
   componentWillUnmount() {
     //clean up event listeners on component dismount
     window.removeEventListener("keydown", null);
-    window.removeEventListener("resize");
     document.removeEventListener("transitionend");
   }
 
+  // covers the whole window with the outer modal display
+  // gets passes which inner modal to display within itself: start or win
   showModal = modalToShow => {
     this.setState({
       modalVisible: true,
@@ -78,6 +86,7 @@ class App extends React.Component {
   };
 
   hideModal = () => {
+    // filter user input to one word, no non-alphabet characters
     if (this.state.userName && this.state.wisdomKeyword) {
       const regex = /^\b[a-zA-Z]+\b$/;
       if (!this.state.wisdomKeyword.match(regex)) {
@@ -98,6 +107,7 @@ class App extends React.Component {
     }
   };
 
+  // look for arrow key presses and pass that keypress to updateUserPosition
   handleKeyPress = event => {
     if (!this.state.modalVisible && this.state.keysActive) {
       if (event.key === "ArrowUp") {
@@ -112,19 +122,25 @@ class App extends React.Component {
     }
   };
 
+  // makes sure attempted move is valid, then makes that move if valid
   updateUserPosition = (direction, event) => {
     event.preventDefault();
     switch (direction) {
       case "up":
+        // make sure we're staying within the bounds of the map
         if (this.state.userY > 0) {
+          // make sure the map tile we're moving to allows movement within it
           if (this.state.mazeMap[this.state.userY - 1][this.state.userX] >= 0) {
             this.setState(
               {
+                // update user x,y position in global state
                 userY: this.state.userY - 1,
                 mazeY: this.state.mazeY + 1,
+                // disallow further input until movement animation finishes
                 keysActive: false,
                 avatarDirection: "66%"
               },
+              // center the map on new position
               this.moveAvatar
             );
           }
@@ -180,6 +196,8 @@ class App extends React.Component {
     }
   };
 
+  // centers the map on the current user x,y position
+  // animation is handled by css transition
   moveAvatar = () => {
     document.documentElement.style.setProperty("--mazeX", this.state.mazeX);
     document.documentElement.style.setProperty("--mazeY", this.state.mazeY);
@@ -187,12 +205,14 @@ class App extends React.Component {
     this.checkCurrentPosition();
   };
 
+  // see if there's anything special about the map tile the user is currently in
   checkCurrentPosition = () => {
     if (this.state.mazeMap[this.state.userY][this.state.userX] === 9) {
       this.showModal("win");
     }
   };
 
+  // reset game values to initial values (called by 'play again?' button on win modal)
   resetGame = () => {
     this.setState(
       {
@@ -200,18 +220,22 @@ class App extends React.Component {
         userY: this.state.mazeMap.length - 1,
         userName: "",
         wisdomKeyword: "",
+        mazeX: 8,
+        mazeY: 8,
         modalToShow: "start",
         inputError: false,
         wisdomError: false
       },
-      () => {this.moveAvatar(); this.setTileSize()}
+      this.moveAvatar
     );
   };
 
+  // puts result of wisdom API call in global state
   getWisdom = wisdom => {
     this.setState({ wisdomObject: wisdom });
   };
 
+  // bind inputs in start modal
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
