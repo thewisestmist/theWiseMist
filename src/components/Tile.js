@@ -16,9 +16,9 @@ const Tile = props => {
       case -1:
         return "filled";
       case -2:
-        return "asteroid";
+        return "cube";
       case -3:
-        return "blackhole";
+        return "boom";
       case 9:
         return "mist";
       default:
