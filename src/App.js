@@ -27,7 +27,7 @@ class App extends React.Component {
       keysActive: true,
       wisdomError: false,
       inputError: false,
-      avatarDirection: "down",
+      avatarDirection: "0%",
       mazeMap: mazeMap
     };
   }
@@ -138,8 +138,7 @@ class App extends React.Component {
                 mazeY: this.state.mazeY + 1,
                 // disallow further input until movement animation finishes
                 keysActive: false,
-                // point our avatar in the direction of movement
-                avatarDirection: "up"
+                avatarDirection: "66%"
               },
               // center the map on new position
               this.moveAvatar
@@ -155,7 +154,7 @@ class App extends React.Component {
                 userX: this.state.userX + 1,
                 mazeX: this.state.mazeX + 1,
                 keysActive: false,
-                avatarDirection: "right"
+                avatarDirection: "33%"
               },
               this.moveAvatar
             );
@@ -170,7 +169,7 @@ class App extends React.Component {
                 userY: this.state.userY + 1,
                 mazeY: this.state.mazeY - 1,
                 keysActive: false,
-                avatarDirection: "down"
+                avatarDirection: "0%"
               },
               this.moveAvatar
             );
@@ -185,7 +184,7 @@ class App extends React.Component {
                 userX: this.state.userX - 1,
                 mazeX: this.state.mazeX - 1,
                 keysActive: false,
-                avatarDirection: "left"
+                avatarDirection: "100%"
               },
               this.moveAvatar
             );
@@ -202,6 +201,7 @@ class App extends React.Component {
   moveAvatar = () => {
     document.documentElement.style.setProperty("--mazeX", this.state.mazeX);
     document.documentElement.style.setProperty("--mazeY", this.state.mazeY);
+    document.documentElement.style.setProperty("--avatarDirection", this.state.avatarDirection);
     this.checkCurrentPosition();
   };
 
@@ -268,7 +268,7 @@ class App extends React.Component {
           <div className="wrapper">
             <div className="mazeWindow">
               <Maze maze={this.state.mazeMap} />
-              <Avatar avatarDirection={this.state.avatarDirection}/>
+              <Avatar />
             </div>
             <Controller updateUserPosition={this.updateUserPosition}
               onKeyDown={this.handleKeyPress} />
