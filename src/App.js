@@ -19,11 +19,11 @@ class App extends React.Component {
       userName: "",
       wisdomKeyword: "",
       userX: 0,
-      userY: 0,
-      // this number is from 58% / 5.3% (58% is where the avatar is centered)
-      mazeX: -10.943,
-      mazeY: -10.943,
-      mazeTileSize: 0,
+      userY: mazeMap.length - 1,
+      // mazeWindow is always 15x15 tiles, so to center the map the initial position of maze map is
+      // 8 x 8
+      mazeX: 8,
+      mazeY: 8,
       keysActive: true,
       wisdomError: false,
       inputError: false,
@@ -49,17 +49,8 @@ class App extends React.Component {
     )
   }
   componentDidMount() {
-    this.alternator()
-    this.setState({
-      userY: this.state.mazeMap.length - 1
-    });
-    
-    this.setTileSize();
-    console.log(this.state.mazeX, this.state.mazeY, this.state.mazeTileSize);
-    
-    window.addEventListener("resize", () => {
-     this.setTileSize();
-    });
+    this.moveAvatar();
+    this.alternator();
 
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
@@ -74,35 +65,9 @@ class App extends React.Component {
 
   componentWillUnmount() {
     //clean up event listeners on component dismount
-    window.removeEventListener("keydown");
+    window.removeEventListener("keydown", null);
     window.removeEventListener("resize");
     document.removeEventListener("transitionend");
-  }
-
-  setTileSize = () => {
-    if (window.innerWidth < 768) {
-      this.setState({
-        mazeTileSize: 0.06625,
-        // this number is from 84% / 6.625% (84% is where the avatar is centered)
-        mazeX: -12.679,
-        mazeY: -12.679
-      }, this.positionMaze)   
-    } else {
-      this.setState({
-        mazeTileSize: 0.053,
-        mazeX: -10.943,
-        mazeY: -10.943
-      }, this.positionMaze)
-    }
-  }
-
-  positionMaze = () => {
-    const newX = this.state.mazeX * this.state.mazeTileSize * 100;
-    const newY = this.state.mazeY * this.state.mazeTileSize * 100;
-
-    document.documentElement.style.setProperty("--mazeX", newX + "%");
-    document.documentElement.style.setProperty("--mazeY", newY + "%");
-    console.log(this.state.mazeX, this.state.mazeY, this.state.mazeTileSize);
   }
 
   showModal = modalToShow => {
@@ -216,10 +181,8 @@ class App extends React.Component {
   };
 
   moveAvatar = () => {
-    const newX = this.state.mazeX * this.state.mazeTileSize * 100;
-    const newY = this.state.mazeY * this.state.mazeTileSize * 100;
-    document.documentElement.style.setProperty("--mazeX", newX + "%");
-    document.documentElement.style.setProperty("--mazeY", newY + "%");
+    document.documentElement.style.setProperty("--mazeX", this.state.mazeX);
+    document.documentElement.style.setProperty("--mazeY", this.state.mazeY);
     this.checkCurrentPosition();
   };
 
