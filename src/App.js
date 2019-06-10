@@ -37,17 +37,17 @@ class App extends React.Component {
     setInterval( () =>
     this.setState({
       mazeMap: mazeMap
-    }), 3000
+    }), 3387
     );
     setInterval(() =>
       this.setState({
         mazeMap: obstacleSetOne
-      }),2000
+      }), 2738
       )
     setInterval(() =>
       this.setState({
         mazeMap: obstacleSetTwo
-      }), 1000
+      }), 1523
     )
   }
 
