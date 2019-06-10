@@ -10,10 +10,10 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 /* variables */
 html {
-  /* --userX: 1;
-  --userY: -1; */
-  --mazeX: calc(35px * -1);
-  --mazeY: calc(35px * -1);
+  --gridLength: 21;
+  --tileMultiplier: 6.625%;
+  --mazeX: calc(var(--tileMultiplier) * -1);
+  --mazeY: calc(var(--tileMultiplier) * -1);
   
   --color-background: rgb(28, 4, 52);
   --color-dark-purple: rgb(41, 5, 77);
@@ -21,6 +21,7 @@ html {
   --color-pale-purple: rgb(238, 214, 241);
   --color-teal: rgb(8, 157, 194);
   --color-electric-green: rgb(48, 194, 184);
+  --color-bright-green: rgb(108, 255, 245);
   --color-off-white: rgb(252, 242, 255);
 }
 
@@ -28,31 +29,6 @@ html {
 body {
   font-size: 125%;
   font-family: 'Roboto', sans-serif;
-}
-
-.App {
-   background: 
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 10px,
-      var(--color-bright-purple) 15px,
-      var(--color-pale-purple) 16px,
-      var(--color-bright-purple) 17px,
-      transparent 22px,
-      transparent 250px
-    ),
-    repeating-linear-gradient(
-      45deg,
-      var(--color-background),
-      var(--color-background) 10px,
-      var(--color-bright-purple) 15px,
-      var(--color-pale-purple) 16px,
-      var(--color-bright-purple) 17px,
-      var(--color-background) 22px,
-      var(--color-background) 250px
-    );
-  min-height: 100vh;
 }
 
 p {
@@ -100,6 +76,31 @@ h4 {
 }
 
 /* General layout */
+
+.App {
+   background: 
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      var(--color-bright-purple) 15px,
+      var(--color-pale-purple) 16px,
+      var(--color-bright-purple) 17px,
+      transparent 22px,
+      transparent 250px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      var(--color-background),
+      var(--color-background) 10px,
+      var(--color-bright-purple) 15px,
+      var(--color-pale-purple) 16px,
+      var(--color-bright-purple) 17px,
+      var(--color-background) 22px,
+      var(--color-background) 250px
+    );
+  min-height: 100vh;
+}
 
 .wrapper {
   margin: 0 auto;
@@ -215,40 +216,63 @@ h4 {
   overflow: hidden;
   width: 100vw;
   height: 100vw;
+  max-width: 768px;
+  max-height: 768px;
   border: 1px solid var(--color-bright-purple);
   box-shadow: 0 0 16px var(--color-bright-purple);
-  background: var(--color-background) url("./assets/mistDirection.png") left bottom no-repeat;
+  background-color: var(--color-background);
+}
 
+.mazeWindow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(28, 4, 52, 0) 0%, rgba(28, 4, 52, 0.75) 70%);
 }
 
 .mazeBoard{
   display: grid;
-  /* this crazy-ass number is 21 * 6.625% (which was the tile width) */
-  width: 139.125%;
-  height: 139.125%;
-  grid-template-columns: repeat(21, 1fr);
-  grid-template-rows: repeat(21, 1fr);
+  grid-template-columns: repeat(var(--gridLength), 1fr);
+  grid-template-rows: repeat(var(--gridLength), 1fr);
+
   position: absolute;
-  right: var(--mazeX);
-  top: var(--mazeY);
-  transition: all .2s linear;
+  width: calc(var(--gridLength) * var(--tileMultiplier));
+  height: calc(var(--gridLength) * var(--tileMultiplier));
+  left: calc(100% - (var(--gridLength) * var(--tileMultiplier) / 2) - var(--mazeX) );
+  bottom: calc(100% - ((var(--gridLength) - 1) / 2) * var(--tileMultiplier) - var(--mazeY) );
+
   border: 1px solid var(--color-electric-green);
   box-shadow: 0 0 16px var(--color-electric-green);
+  transition: all .2s linear;
+}
+
+.mazeBoard::after {
+  content: "";
+  position: absolute;
+  bottom: -25%;
+  left: -25%;
+  width: 30%;
+  height: 30%;
+  background: url("./assets/mistDirection.png") left bottom no-repeat;
+  background-size: contain;
 }
 
 .tile{
-  /* border: 1px solid black; */
   width: 100%;
   height: 100%;
 }
 
 .asteroid{
-  background: white;
+  background: var(--color-dark-purple);
   background-image: url("https://www.pinclipart.com/picdir/middle/72-725644_transparent-asteroid-asteroid-clipart-png.png");
-  background-size: 100% 100%
+  background-size: 100% 100%;
 }
+
 .blackhole{
-  background: black;
+  background: var(--color-dark-purple);
   background-image: url("https://cbsnews1.cbsistatic.com/hub/i/2017/03/22/aebde2e8-69df-46af-a23f-fce8f915a201/assasn-14li-banner.jpg");
   background-size: 100% 100%;
   
@@ -260,7 +284,12 @@ h4 {
 }
 
 .filled {
-  background: var(--color-teal);
+  background: linear-gradient(315deg, transparent 75%, var(--color-electric-green) 0) -50% 0,
+    linear-gradient(45deg, transparent 75%, var(--color-electric-green) 0) -50% 0,
+    linear-gradient(135deg, var(--color-bright-green) 50%, transparent 0) 0 0,
+    linear-gradient(45deg, var(--color-teal) 50%, rgb(4, 137, 171) 0) 0 0 rgb(4, 137, 171);
+  background-size: 50% 50%;
+  box-shadow: 0 0 6px var(--color-electric-green);
 }
 
 
@@ -357,27 +386,21 @@ label {
 
 
 .avatar {
-    /* background-image: url("https://rpgmaker.net/media/content/users/27236/locker/ChipsActor.png"); */
-    width: 36px;
-    height: 35px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: none;
-    z-index: 5;
+  width: 36px;
+  height: 35px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  z-index: 5;
 }
   
 /* Media Queries begin */
 @media (min-width: 768px) {
-  .mazeWindow {
-    width: 80vw;
-    max-width: 900px;
-    height: 80vw;
-    max-height: 900px;
+  html {
+    --tileMultiplier: 6.625%;
   }
-  /* this resets the mazeWindow to 80% width, but it breaks the maze layout, so we have to change the
-  multiplier in the code so everything still gets placed properly. */
 
   .startModalInputContainer {
     display: flex;
@@ -387,11 +410,6 @@ label {
 
   .errorMessage {
     flex-basis: 100%;
-  }
-
-  .mazeBoard {
-    width: 111.3%;
-    height: 111.3%;
   }
 }
 
