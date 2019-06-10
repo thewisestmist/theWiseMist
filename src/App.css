@@ -16,6 +16,7 @@ html {
   /* mazeX and mazeY control the positioning of the map within the maze window */
   --mazeX: calc(var(--tileMultiplier) * -1);
   --mazeY: calc(var(--tileMultiplier) * -1);
+  --avatarDirection: 0%;
   
   --color-background: rgb(28, 4, 52);
   --color-dark-purple: rgb(41, 5, 77);
@@ -396,14 +397,22 @@ label {
 
 
 .avatar {
-  width: 36px;
-  height: 35px;
+  background-image: url("./components/assets/spacemanSpriteSheet.png");
+  background-position: top var(--avatarDirection) left 0;
+  background-repeat: no-repeat;
+  animation: moveSprite 0.5s steps(3) infinite;
+  width: 40px;
+  height: 40px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   border: none;
   z-index: 5;
+}
+
+@keyframes moveSprite { 
+  100%{background-position: top var(--avatarDirection) left -120px};
 }
   
 /* Media Queries begin */
