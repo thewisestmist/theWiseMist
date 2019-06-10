@@ -3,6 +3,8 @@ import "./App.css";
 import Modal from "./components/Modal.js";
 import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
+import obstacleSetOne from "./obstacleSetOne";
+import obstacleSetTwo from "./obstacleSetTwo"
 import mazeMap from "./mazeMap.js";
 import Avatar from "./components/Avatar.js";
 import Controller from './components/Controller'
@@ -25,12 +27,30 @@ class App extends React.Component {
       keysActive: true,
       wisdomError: false,
       inputError: false,
-      avatarDirection: "down"
+      avatarDirection: "down",
+      mazeMap: mazeMap
     };
   }
-
+  alternator = () => {
+    setInterval( () =>
+    this.setState({
+      mazeMap: mazeMap
+    }), 1000
+    );
+    setInterval(() =>
+      this.setState({
+        mazeMap: obstacleSetOne
+      }),2000
+      )
+    setInterval(() =>
+      this.setState({
+        mazeMap: obstacleSetTwo
+      }), 3000
+    )
+  }
   componentDidMount() {
     this.moveAvatar();
+    this.alternator();
 
     this.showModal("start");
     window.addEventListener("keydown", this.handleKeyPress);
@@ -97,7 +117,7 @@ class App extends React.Component {
     switch (direction) {
       case "up":
         if (this.state.userY > 0) {
-          if (mazeMap[this.state.userY - 1][this.state.userX] >= 0) {
+          if (this.state.mazeMap[this.state.userY - 1][this.state.userX] >= 0) {
             this.setState(
               {
                 userY: this.state.userY - 1,
@@ -111,8 +131,8 @@ class App extends React.Component {
         }
         break;
       case "right":
-        if (this.state.userX < mazeMap[0].length - 1) {
-          if (mazeMap[this.state.userY][this.state.userX + 1] >= 0) {
+        if (this.state.userX < this.state.mazeMap[0].length - 1) {
+          if (this.state.mazeMap[this.state.userY][this.state.userX + 1] >= 0) {
             this.setState(
               {
                 userX: this.state.userX + 1,
@@ -126,8 +146,8 @@ class App extends React.Component {
         }
         break;
       case "down":
-        if (this.state.userY < mazeMap.length - 1) {
-          if (mazeMap[this.state.userY + 1][this.state.userX] >= 0) {
+        if (this.state.userY < this.state.mazeMap.length - 1) {
+          if (this.state.mazeMap[this.state.userY + 1][this.state.userX] >= 0) {
             this.setState(
               {
                 userY: this.state.userY + 1,
@@ -142,7 +162,7 @@ class App extends React.Component {
         break;
       case "left":
         if (this.state.userX > 0) {
-          if (mazeMap[this.state.userY][this.state.userX - 1] >= 0) {
+          if (this.state.mazeMap[this.state.userY][this.state.userX - 1] >= 0) {
             this.setState(
               {
                 userX: this.state.userX - 1,
@@ -167,7 +187,7 @@ class App extends React.Component {
   };
 
   checkCurrentPosition = () => {
-    if (mazeMap[this.state.userY][this.state.userX] === 9) {
+    if (this.state.mazeMap[this.state.userY][this.state.userX] === 9) {
       this.showModal("win");
     }
   };
@@ -176,7 +196,7 @@ class App extends React.Component {
     this.setState(
       {
         userX: 0,
-        userY: mazeMap.length - 1,
+        userY: this.state.mazeMap.length - 1,
         userName: "",
         wisdomKeyword: "",
         modalToShow: "start",
@@ -222,7 +242,7 @@ class App extends React.Component {
         <main className="AppContainer">
           <div className="wrapper">
             <div className="mazeWindow">
-              <Maze maze={mazeMap} />
+              <Maze maze={this.state.mazeMap} />
               <Avatar avatarDirection={this.state.avatarDirection}/>
             </div>
             <Controller updateUserPosition={this.updateUserPosition}

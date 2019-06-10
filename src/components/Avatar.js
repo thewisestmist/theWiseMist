@@ -1,4 +1,5 @@
 import React from "react";
+import avatar from './assets/spacemanSpriteSheet.png'
 import Spritesheet from 'react-responsive-spritesheet';
 
 const Avatar = props => {
@@ -28,7 +29,7 @@ const Avatar = props => {
     
     <Spritesheet
       className="tile avatar"
-      image="./assets/spacemanSpriteSheet.png"
+      image={avatar}
       widthFrame={45}
       heightFrame={36}
       steps={3}

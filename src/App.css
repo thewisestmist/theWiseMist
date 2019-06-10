@@ -256,7 +256,7 @@ h4 {
   left: -25%;
   width: 30%;
   height: 30%;
-  background: url("./assets/mistDirection.png") left bottom no-repeat;
+  background: url("./components/assets/mistDirection.png") left bottom no-repeat;
   background-size: contain;
 }
 
@@ -265,16 +265,19 @@ h4 {
   height: 100%;
 }
 
-.asteroid{
-  background: var(--color-dark-purple);
-  background-image: url("https://www.pinclipart.com/picdir/middle/72-725644_transparent-asteroid-asteroid-clipart-png.png");
-  background-size: 100% 100%;
+.boom{
+  background-image: url("https://images.vexels.com/media/users/3/145648/isolated/preview/423beaf5a703c357b4d724a0cb692686-fire-cartoon-by-vexels.png");
+  background-size: 100% 100%
 }
-
+.cube{
+   background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Jail_Bars_Icon.svg/1021px-Jail_Bars_Icon.svg.png");
+     background-size: 100% 100%;
+     z-index: 10;
+}
 .blackhole{
-  background: var(--color-dark-purple);
-  background-image: url("https://cbsnews1.cbsistatic.com/hub/i/2017/03/22/aebde2e8-69df-46af-a23f-fce8f915a201/assasn-14li-banner.jpg");
-  background-size: 100% 100%;
+
+  /* background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Explosion-417894_icon.svg/1021px-Explosion-417894_icon.svg.png");
+  background-size: 100% 100%; */
   
 }
 
