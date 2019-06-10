@@ -5,6 +5,7 @@ import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
 import obstacleSetOne from "./obstacleSetOne";
 import obstacleSetTwo from "./obstacleSetTwo"
+import obstacleSetThree from "./obstacleSetThree";
 import mazeMap from "./mazeMap.js";
 import Avatar from "./components/Avatar.js";
 import Controller from './components/Controller'
@@ -51,8 +52,13 @@ class App extends React.Component {
             mazeMap: obstacleSetTwo
           });
         }, 2000);
+        setTimeout(() => {
+          this.setState({
+            mazeMap: obstacleSetThree
+          });
+        }, 3000);
       },
-      3000
+      4000
     );
   };
 
