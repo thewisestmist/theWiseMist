@@ -271,19 +271,33 @@ h4 {
 }
 
 .wormhole{
-  background-image: url("https://images.vexels.com/media/users/3/145648/isolated/preview/423beaf5a703c357b4d724a0cb692686-fire-cartoon-by-vexels.png");
+  background: url("./components/assets/wormhole.png"), var(--color-dark-purple);
   background-size: 100% 100%
 }
-.cube{
-   background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Jail_Bars_Icon.svg/1021px-Jail_Bars_Icon.svg.png");
-     background-size: 100% 100%;
-     z-index: 10;
-}
-.blackhole{
 
-  /* background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Explosion-417894_icon.svg/1021px-Explosion-417894_icon.svg.png");
-  background-size: 100% 100%; */
-  
+.cage {
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      var(--color-bright-purple) 2px,
+      var(--color-pale-purple) 3px,
+      var(--color-bright-purple) 4px,
+      transparent 5px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 1px,
+      var(--color-bright-purple) 2px,
+      var(--color-pale-purple) 3px,
+      var(--color-bright-purple) 4px,
+      transparent 5px,
+      transparent 10px
+    );
+  z-index: 10;
 }
 
 .empty,

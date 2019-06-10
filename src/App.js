@@ -221,6 +221,20 @@ class App extends React.Component {
   checkCurrentPosition = () => {
     if (this.state.mazeMap[this.state.userY][this.state.userX] === 9) {
       this.showModal("win");
+      } else if (this.state.mazeMap[this.state.userY][this.state.userX] === 2) { 
+        this.setState({
+          userX: 0,
+          userY: this.state.mazeMap.length - 1,
+          mazeX: 8,
+          mazeY: 8
+        }, this.moveAvatar);
+    } else if (this.state.mazeMap[this.state.userY][this.state.userX] === 3) {
+      this.setState({
+        userX: 0,
+        userY: 0,
+        mazeX: 8,
+        mazeY: 28
+      }, this.moveAvatar);
     }
   };
 

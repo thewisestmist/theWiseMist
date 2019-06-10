@@ -16,8 +16,10 @@ const Tile = props => {
       case -1:
         return "filled";
       case -2:
-        return "cube";
+        return "cage";
       case 2:
+        return "wormhole";
+      case 3:
         return "wormhole";
       case 9:
         return "mist";
