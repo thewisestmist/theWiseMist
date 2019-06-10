@@ -11,7 +11,9 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 /* variables */
 html {
   --gridLength: 21;
+  /* maze window shows a 15x15 grid of tiles, so each tile is 6.625% of the parent */
   --tileMultiplier: 6.625%;
+  /* mazeX and mazeY control the positioning of the map within the maze window */
   --mazeX: calc(var(--tileMultiplier) * -1);
   --mazeY: calc(var(--tileMultiplier) * -1);
   
@@ -185,14 +187,15 @@ h4 {
 
 .startModal,
 .winModal {
+  min-height: 100vh;
+  padding: 1.5rem 1rem; 
+  width: 100%;
+
   background: var(--color-dark-purple);
   border: 1px solid var(--color-pale-purple);
   box-shadow: 0 0 10px var(--color-bright-purple);
   color: var(--color-off-white);
   text-align: center;
-  padding: 1.5rem 1rem; 
-  width: 100%;
-  min-height: 100vh;
 }
 
 .errorMessage p {
@@ -218,9 +221,10 @@ h4 {
   height: 100vw;
   max-width: 768px;
   max-height: 768px;
+
+  background-color: var(--color-background);
   border: 1px solid var(--color-bright-purple);
   box-shadow: 0 0 16px var(--color-bright-purple);
-  background-color: var(--color-background);
 }
 
 .mazeWindow::after {
@@ -306,15 +310,16 @@ input {
 }
 
 input {
-  margin: .5rem auto 2rem;
-  width: 100%;
   appearance: none;
+  width: 100%;
+  margin: .5rem auto 2rem;
+  padding: .5rem 1rem;
+
   background-color: transparent;
   border: 1px solid var(--color-pale-purple);
   box-shadow: 0 0 10px var(--color-bright-purple);
   color: var(--color-off-white);
   text-align: center;
-  padding: .5rem 1rem;
 }
 
 input:last-of-type {
@@ -332,17 +337,18 @@ label {
 
 .beginButton {
   appearance: none;
+  margin-top: 2.0rem;
+  padding: .5rem 1rem;
+  width: 100%;
+
   background-color: var(--color-teal);
   border: 1px solid var(--color-electric-green);
   box-shadow: 0 0 10px var(--color-electric-green);
   color: var(--color-off-white);
   font-size: 1.2rem;
-  text-transform: uppercase;
   letter-spacing: 1px;
+  text-transform: uppercase;
   text-align: center;
-  padding: .5rem 1rem;
-  width: 100%;
-  margin-top: 2.0rem;
 }
 
 .beginButton:hover,
@@ -371,11 +377,12 @@ label {
   width: 50px;
   height: 50px;
   margin: 0 2.0rem;
-  color: var(--color-electric-green);
-  text-shadow: 0 0 10px var(--color-electric-green);
+
+  background: var(--color-dark-purple);
   border: 1px solid var(--color-electric-green);
   box-shadow: 0 0 10px var(--color-electric-green);
-  background: var(--color-dark-purple);
+  color: var(--color-electric-green);
+  text-shadow: 0 0 10px var(--color-electric-green);
 }
 
 .navButton:hover,
