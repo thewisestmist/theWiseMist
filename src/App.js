@@ -20,7 +20,7 @@ class App extends React.Component {
       wisdomKeyword: "",
       userX: 0,
       userY: mazeMap.length - 1,
-      // mazeWindow is always 15x15 tiles, so to center the map 
+      // mazeWindow is always 15x15 tiles, so to center the map
       // the initial position of maze map is 8 x 8
       mazeX: 8,
       mazeY: 8,
@@ -34,22 +34,48 @@ class App extends React.Component {
 
   // controls the timing of shifting maze walls
   alternator = () => {
-    setInterval( () =>
-    this.setState({
-      mazeMap: mazeMap
-    }), 3000
+    setInterval(
+      () => {
+        setTimeout(() => {
+
+            this.setState({
+              mazeMap: mazeMap
+            });
+        }, 0);
+        setTimeout(() => {
+
+            this.setState({
+              mazeMap: obstacleSetOne
+            });
+        }, 1000);
+        setTimeout(() => {
+
+            this.setState({
+              mazeMap: obstacleSetTwo
+            });
+        }, 2000);
+      },
+
+      3000
     );
-    setInterval(() =>
-      this.setState({
-        mazeMap: obstacleSetOne
-      }),2000
-      )
-    setInterval(() =>
-      this.setState({
-        mazeMap: obstacleSetTwo
-      }), 1000
-    )
-  }
+  };
+
+  //   setInterval( () =>
+  // this.setState({
+  //   mazeMap: mazeMap
+  // }), 3000
+  //   );
+  //   setInterval(() =>
+  //     this.setState({
+  //       mazeMap: obstacleSetOne
+  //     }),2000
+  //     )
+  //   setInterval(() =>
+  //     this.setState({
+  //       mazeMap: obstacleSetTwo
+  //     }), 1000
+  //   )
+  // }
 
   // on first page load
   componentDidMount() {
@@ -268,10 +294,12 @@ class App extends React.Component {
           <div className="wrapper">
             <div className="mazeWindow">
               <Maze maze={this.state.mazeMap} />
-              <Avatar avatarDirection={this.state.avatarDirection}/>
+              <Avatar avatarDirection={this.state.avatarDirection} />
             </div>
-            <Controller updateUserPosition={this.updateUserPosition}
-              onKeyDown={this.handleKeyPress} />
+            <Controller
+              updateUserPosition={this.updateUserPosition}
+              onKeyDown={this.handleKeyPress}
+            />
             <p className="instruction">Use arrow keys to navigate.</p>
             <button
               onClick={() => {
