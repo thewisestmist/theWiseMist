@@ -29,12 +29,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({
-    //   // userY: mazeMap.length - 1,
-    //   mazeX: -1 * (mazeMap.length * this.state.mazeTileSize),
-    //   mazeY: -1 * (mazeMap.length * this.state.mazeTileSize)
-    // }, this.moveAvatar );
-    // newX = this.state.mazeX * this.state.mazeTileSize * 100;
     
     this.setTileSize();
     

@@ -241,8 +241,10 @@ h4 {
   position: absolute;
   width: calc(var(--gridLength) * var(--tileMultiplier));
   height: calc(var(--gridLength) * var(--tileMultiplier));
-  left: calc(100% - (var(--gridLength) * var(--tileMultiplier) / 2) - var(--mazeX) );
-  bottom: calc(100% - ((var(--gridLength) - 1) / 2) * var(--tileMultiplier) - var(--mazeY) );
+  /* left: calc(100% - ((var(--gridLength) - 1) / 2) * var(--tileMultiplier) - var(--mazeX) );
+  bottom: calc(100% - ((var(--gridLength) - 1) / 2) * var(--tileMultiplier) - var(--mazeY) ); */
+  left: calc(50% - var(--mazeX) - var(--tileMultiplier) );
+  bottom: calc(50% - var(--mazeY) - var(--tileMultiplier) );
 
   border: 1px solid var(--color-electric-green);
   box-shadow: 0 0 16px var(--color-electric-green);
