@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f343385f6dd5a2b55e13ec8abfdad578",
+    "revision": "b7f59b1baf0d8d90816e214648c74dec",
     "url": "/theWiseMist/index.html"
   },
   {
-    "revision": "75052406f6bf26d00ca9",
-    "url": "/theWiseMist/static/css/main.47c172eb.chunk.css"
+    "revision": "ef02c6bf855bc3d90906",
+    "url": "/theWiseMist/static/css/main.76b6cc0e.chunk.css"
   },
   {
-    "revision": "e155dcde7566757aa045",
-    "url": "/theWiseMist/static/js/2.0c489a69.chunk.js"
+    "revision": "92d1e48dcdf901e1ec03",
+    "url": "/theWiseMist/static/js/2.8f09df68.chunk.js"
   },
   {
-    "revision": "75052406f6bf26d00ca9",
-    "url": "/theWiseMist/static/js/main.db735f2d.chunk.js"
+    "revision": "ef02c6bf855bc3d90906",
+    "url": "/theWiseMist/static/js/main.2fff1a6a.chunk.js"
   },
   {
     "revision": "8d4768867db476fda4d4",
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/theWiseMist/static/media/mistDirection.51d340f9.png"
   },
   {
-    "revision": "8e5d04f147962b51e81e1d3c88191544",
-    "url": "/theWiseMist/static/media/spacemanSpriteSheet.8e5d04f1.png"
+    "revision": "a64b34e0caaad0a9a26845cee9ecbb19",
+    "url": "/theWiseMist/static/media/spacemanSpriteSheet.a64b34e0.png"
   },
   {
     "revision": "39c58337abe2934278af5c9a559b0ad5",
