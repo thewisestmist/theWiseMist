@@ -4,7 +4,7 @@ import Axios from "axios";
 class WisdomAPICall extends Component {
 
   componentDidMount() {
-    this.props.getWisdom( this.fetchQuery() );
+    this.fetchQuery();
   }
 
   fetchQuery = () => {
@@ -33,7 +33,8 @@ class WisdomAPICall extends Component {
       const wiseMistAnswer = await Axios.get(
         `https://api.adviceslip.com/advice/search/${this.props.userQuery}`
       );
-      return wiseMistAnswer.data.slips[0].advice;
+      const randomIndex = Math.floor(Math.random() * wiseMistAnswer.data.slips.length);
+      return wiseMistAnswer.data.slips[randomIndex].advice;
     } catch (error) {
       console.log(error.message);
     }

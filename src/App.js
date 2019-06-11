@@ -33,36 +33,6 @@ class App extends React.Component {
     };
   }
 
-  // controls the timing of shifting maze walls
-  alternator = () => {
-    setInterval(
-      () => {
-        setTimeout(() => {
-          this.setState({
-            mazeMap: mazeMap
-          });
-        }, 0);
-        setTimeout(() => {
-          this.setState({
-            mazeMap: obstacleSetOne
-          });
-        }, 1000);
-        setTimeout(() => {
-          this.setState({
-            mazeMap: obstacleSetTwo
-          });
-        }, 2000);
-        setTimeout(() => {
-          this.setState({
-            mazeMap: obstacleSetThree
-          });
-        }, 3000);
-      },
-      4000
-    );
-  };
-
-
   // on first page load
   componentDidMount() {
     // center the map on the current user x,y position
@@ -119,6 +89,35 @@ class App extends React.Component {
     }
   };
 
+  // controls the timing of shifting maze walls
+  alternator = () => {
+    setInterval(
+      () => {
+        setTimeout(() => {
+          this.setState({
+            mazeMap: mazeMap
+          });
+        }, 0);
+        setTimeout(() => {
+          this.setState({
+            mazeMap: obstacleSetOne
+          });
+        }, 1000);
+        setTimeout(() => {
+          this.setState({
+            mazeMap: obstacleSetTwo
+          });
+        }, 2000);
+        setTimeout(() => {
+          this.setState({
+            mazeMap: obstacleSetThree
+          });
+        }, 3000);
+      },
+      4000
+    );
+  };
+
   // look for arrow key presses and pass that keypress to updateUserPosition
   handleKeyPress = event => {
     if (!this.state.modalVisible && this.state.keysActive) {
@@ -137,6 +136,12 @@ class App extends React.Component {
   // makes sure attempted move is valid, then makes that move if valid
   updateUserPosition = (direction, event) => {
     event.preventDefault();
+
+    // if the user is trapped inside an obstacle, do nothing
+    if (this.state.mazeMap[this.state.userY][this.state.userX] < 0) {
+      return null
+    } 
+
     switch (direction) {
       case "up":
         // make sure we're staying within the bounds of the map
@@ -301,13 +306,6 @@ class App extends React.Component {
               onKeyDown={this.handleKeyPress}
             />
             <p className="instruction">Use arrow keys to navigate.</p>
-            <button
-              onClick={() => {
-                this.showModal("win");
-              }}
-            >
-              test win modal
-            </button>
           </div>
         </main>
       </div>

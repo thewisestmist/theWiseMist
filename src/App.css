@@ -191,6 +191,8 @@ h4 {
   min-height: 100vh;
   padding: 1.5rem 1rem; 
   width: 100%;
+  position: relative;
+  top: 0;
 
   background: var(--color-dark-purple);
   border: 1px solid var(--color-pale-purple);
@@ -411,12 +413,12 @@ label {
 
 
 .avatar {
-  background-image: url("./components/assets/spacemanSpriteSheet.png");
+  background-image: url("./components/assets/spacemanSpriteSheetSmall.png");
   background-position: top var(--avatarDirection) left 0;
   background-repeat: no-repeat;
   animation: moveSprite 0.5s steps(3) infinite;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -426,10 +428,22 @@ label {
 }
 
 @keyframes moveSprite { 
-  100%{background-position: top var(--avatarDirection) left -120px};
+  100%{background-position: top var(--avatarDirection) left -60px};
 }
   
 /* Media Queries begin */
+@media (min-width: 600px) {
+  .avatar {
+    background-image: url("./components/assets/spacemanSpriteSheet.png");
+    width: 40px;
+    height: 40px;
+  }
+  
+  @keyframes moveSprite { 
+    100%{background-position: top var(--avatarDirection) left -120px};
+  }
+}
+
 @media (min-width: 768px) {
   html {
     --tileMultiplier: 6.625%;
@@ -464,6 +478,7 @@ label {
 
   .instruction {
     display: block;
+    margin-bottom: 0;
   }
 
   .buttonContainer {
