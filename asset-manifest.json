@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/theWiseMist/static/css/main.9c78fb5f.chunk.css",
-    "main.js": "/theWiseMist/static/js/main.35b1ae21.chunk.js",
-    "main.js.map": "/theWiseMist/static/js/main.35b1ae21.chunk.js.map",
+    "main.css": "/theWiseMist/static/css/main.3812880e.chunk.css",
+    "main.js": "/theWiseMist/static/js/main.9193ff11.chunk.js",
+    "main.js.map": "/theWiseMist/static/js/main.9193ff11.chunk.js.map",
     "runtime~main.js": "/theWiseMist/static/js/runtime~main.f65e81f0.js",
     "runtime~main.js.map": "/theWiseMist/static/js/runtime~main.f65e81f0.js.map",
     "static/js/2.8f09df68.chunk.js": "/theWiseMist/static/js/2.8f09df68.chunk.js",
     "static/js/2.8f09df68.chunk.js.map": "/theWiseMist/static/js/2.8f09df68.chunk.js.map",
     "index.html": "/theWiseMist/index.html",
-    "precache-manifest.2e4147abf38d30fa0822d096c3b553df.js": "/theWiseMist/precache-manifest.2e4147abf38d30fa0822d096c3b553df.js",
+    "precache-manifest.61805ce9a9e8cde5458d0ad553a5d578.js": "/theWiseMist/precache-manifest.61805ce9a9e8cde5458d0ad553a5d578.js",
     "service-worker.js": "/theWiseMist/service-worker.js",
-    "static/css/main.9c78fb5f.chunk.css.map": "/theWiseMist/static/css/main.9c78fb5f.chunk.css.map",
+    "static/css/main.3812880e.chunk.css.map": "/theWiseMist/static/css/main.3812880e.chunk.css.map",
     "static/media/App.css": "/theWiseMist/static/media/spacemanSpriteSheetSmall.725b1078.png",
     "static/media/wiseMist.png": "/theWiseMist/static/media/wiseMist.39c58337.png"
   }
