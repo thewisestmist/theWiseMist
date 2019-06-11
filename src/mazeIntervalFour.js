@@ -3,7 +3,7 @@
 // Numbers 0 and great you can pass through
 // Number less than 0 you cannot
 
-let obstacleSetThree = [
+let mazeIntervalFour = [
     [0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, 0, -1, -1, -1, 0, 0, 0, 0, 9],
     [-1, -1, 0, 0, 0, 0, -1, -1, 0, -1, -1, -1, 0, 0, 0, -1, 0, -1, -1, 0, -1],
     [0, 0, 0, -1, 0, -1, -1, -1, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1],
@@ -29,4 +29,4 @@ let obstacleSetThree = [
 
 
 
-export default obstacleSetThree;
+export default mazeIntervalFour;

@@ -1,9 +1,10 @@
 import React from "react";
 import MistTile from "./MistTile.js";
 
+// Inner modal content to show at start of game
 const StartModal = (props) => {
     return(
-        <div className="startModal">
+        <header className="startModal">
             <h1>The Wise Mist</h1>
             <div className="mistModalWrap">
                 <MistTile />
@@ -28,7 +29,7 @@ const StartModal = (props) => {
                 </div> : ""}
             </div>
             <button className="beginButton" onClick={() => props.hideModal()}>Begin your journey!</button>
-        </div>
+        </header>
     );
 }
 

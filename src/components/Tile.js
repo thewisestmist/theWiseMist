@@ -1,7 +1,11 @@
 import React from "react";
 import MistTile from "./MistTile";
 
+// simple component to draw each tile of the maze map
 const Tile = props => {
+  // this explicitly sets each tile's position in the grid
+  // you can overlap things in CSS grid, but for it to not push things out of alignment,
+  // everything has to be explicitly positioned
   let divStyle = {
     gridColumnStart: `${props.gridX + 1}`,
     gridColumnEnd: `span 1`,
@@ -9,6 +13,7 @@ const Tile = props => {
     gridRowEnd: `span 1`
   };
 
+  // show a different tile style depending on maze grid value of this square
   function getTileSprite(type) {
     switch (type) {
       case 0:

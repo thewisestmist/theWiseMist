@@ -1,6 +1,8 @@
 import React from "react";
 import mist from './assets/wiseMist.png'
 
+// Simple component to display the Wise Mist graphic
+// There's three stacked atop each other that rotate at different speeds for a 3D look
 const MistTile = () => {
   return (
     <div className="mistContainer">
@@ -12,12 +14,12 @@ const MistTile = () => {
       <img
         src={mist}
         className="wiseMist mist2"
-        alt="The Wise Mist"
+        alt=""
       />
       <img
         src={mist}
         className="wiseMist mist3"
-        alt="The Wise Mist"
+        alt=""
       />
     </div>
   );

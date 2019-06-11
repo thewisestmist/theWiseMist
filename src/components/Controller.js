@@ -5,6 +5,7 @@ const Controller = (props) => {
     return (
         <div>
             <div>
+                {/* Hidden input that's listening for all keystrokes */}
                 <input
                     type="button"
                     id="listener"
@@ -12,6 +13,7 @@ const Controller = (props) => {
                     className="visuallyHidden"
                     onKeyDown={props.onKeyDown}
                 />
+                {/* Up button */}
                 <div className="buttonContainer">
                     <button
                         id="Up"
@@ -26,6 +28,7 @@ const Controller = (props) => {
                     </button>
                 </div>
                 <div className="buttonContainer">
+                    {/* Left button */}
                     <button
                         id="Left"
                         className="navButton left"
@@ -37,6 +40,7 @@ const Controller = (props) => {
                             <span className="visuallyHidden">left</span>
                         </i>
                     </button>
+                    {/* Right button */}
                     <button
                         id="Right"
                         className="navButton right"
@@ -50,6 +54,7 @@ const Controller = (props) => {
                     </button>
                 </div>
                 <div className="buttonContainer">
+                    {/* Down button */}
                     <button
                         id="Down"
                         className="navButton down"

@@ -111,7 +111,15 @@ h4 {
   max-width: 1000px;
 }
 
-/* for spinning animation */
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+/* to display mist graphic */
 .mistModalWrap {
   margin: 0 auto;
   width: 60vw;
@@ -132,6 +140,8 @@ h4 {
   left: 0;
   pointer-events: none;
 }
+
+/* for spinning animation */
 
 .mist1 {
   animation: wiseMistSpin infinite 60s linear;
@@ -206,117 +216,6 @@ h4 {
   font-size: 1.0rem;
 }
 
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
-}
-
-/* main (game) styles*/
-
-.mazeWindow {
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vw;
-  max-width: 768px;
-  max-height: 768px;
-
-  background-color: var(--color-background);
-  border: 1px solid var(--color-bright-purple);
-  box-shadow: 0 0 16px var(--color-bright-purple);
-}
-
-.mazeWindow::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, rgba(28, 4, 52, 0) 0%, rgba(28, 4, 52, 0.75) 70%);
-}
-
-.mazeBoard{
-  display: grid;
-  grid-template-columns: repeat(var(--gridLength), 1fr);
-  grid-template-rows: repeat(var(--gridLength), 1fr);
-
-  position: absolute;
-  width: calc(var(--gridLength) * var(--tileMultiplier));
-  height: calc(var(--gridLength) * var(--tileMultiplier));
-  left: calc(100% - var(--mazeX) * var(--tileMultiplier) );
-  bottom: calc(100% - var(--mazeY) * var(--tileMultiplier) );
-
-  border: 1px solid var(--color-electric-green);
-  box-shadow: 0 0 16px var(--color-electric-green);
-  transition: all .2s linear;
-}
-
-.mazeBoard::after {
-  content: "";
-  position: absolute;
-  bottom: -25%;
-  left: -25%;
-  width: 30%;
-  height: 30%;
-  background: url("./components/assets/mistDirection.png") left bottom no-repeat;
-  background-size: contain;
-}
-
-.tile{
-  width: 100%;
-  height: 100%;
-}
-
-.wormhole{
-  background: url("./components/assets/wormhole.png"), var(--color-dark-purple);
-  background-size: 100% 100%
-}
-
-.cage {
-  background: 
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 1px,
-      var(--color-bright-purple) 2px,
-      var(--color-pale-purple) 3px,
-      var(--color-bright-purple) 4px,
-      transparent 5px,
-      transparent 10px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 1px,
-      var(--color-bright-purple) 2px,
-      var(--color-pale-purple) 3px,
-      var(--color-bright-purple) 4px,
-      transparent 5px,
-      transparent 10px
-    );
-  z-index: 10;
-}
-
-.empty,
-.mist {
-  background: var(--color-dark-purple);
-}
-
-.filled {
-  background: linear-gradient(315deg, transparent 75%, var(--color-electric-green) 0) -50% 0,
-    linear-gradient(45deg, transparent 75%, var(--color-electric-green) 0) -50% 0,
-    linear-gradient(135deg, var(--color-bright-green) 50%, transparent 0) 0 0,
-    linear-gradient(45deg, var(--color-teal) 50%, rgb(4, 137, 171) 0) 0 0 rgb(4, 137, 171);
-  background-size: 50% 50%;
-  box-shadow: 0 0 6px var(--color-electric-green);
-}
-
-
 .inputWrapper {
   flex-basis: 47.5%;
 }
@@ -338,6 +237,8 @@ input {
   color: var(--color-off-white);
   text-align: center;
 }
+
+/* Text input elements */
 
 input:last-of-type {
   margin-bottom: 0.25rem;
@@ -378,6 +279,121 @@ label {
   color: var(--color-background);
 }
 
+/* main (game) styles*/
+
+.mazeWindow {
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vw;
+  max-width: 768px;
+  max-height: 768px;
+
+  background-color: var(--color-background);
+  border: 1px solid var(--color-bright-purple);
+  box-shadow: 0 0 16px var(--color-bright-purple);
+}
+
+/* this makes the maze darker the further away from the avatar it is */
+.mazeWindow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(28, 4, 52, 0) 0%, rgba(28, 4, 52, 0.75) 70%);
+}
+
+/* Controls the size and position of the maze map */
+.mazeBoard{
+  display: grid;
+  /* number of columns is equal to the length of the grid array, divided equally */
+  grid-template-columns: repeat(var(--gridLength), 1fr);
+  grid-template-rows: repeat(var(--gridLength), 1fr);
+
+  position: absolute;
+  /* size of the map is number of tiles times size of each tile */
+  width: calc(var(--gridLength) * var(--tileMultiplier));
+  height: calc(var(--gridLength) * var(--tileMultiplier));
+
+  /* position of map is relative to the mazeWindow div - it's pushed over the full width/height of the mazeWindow
+  and then shifted left/up based on the user's current x,y position */
+  left: calc(100% - var(--mazeX) * var(--tileMultiplier) );
+  bottom: calc(100% - var(--mazeY) * var(--tileMultiplier) );
+
+  border: 1px solid var(--color-electric-green);
+  box-shadow: 0 0 16px var(--color-electric-green);
+  transition: all .2s linear;
+}
+
+/* this shows the "this way to Wise Mist" graphic */
+.mazeBoard::after {
+  content: "";
+  position: absolute;
+  bottom: -25%;
+  left: -25%;
+  width: 30%;
+  height: 30%;
+  background: url("./components/assets/mistDirection.png") left bottom no-repeat;
+  background-size: contain;
+}
+
+/* each tile takes up 100% of the CSS Grid square it occupies */
+.tile{
+  width: 100%;
+  height: 100%;
+}
+
+/* maze obstacle styles */
+.wormhole{
+  background: url("./components/assets/wormhole.png"), var(--color-dark-purple);
+  background-size: 100% 100%
+}
+
+.cage {
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      var(--color-bright-purple) 2px,
+      var(--color-pale-purple) 3px,
+      var(--color-bright-purple) 4px,
+      transparent 5px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 1px,
+      var(--color-bright-purple) 2px,
+      var(--color-pale-purple) 3px,
+      var(--color-bright-purple) 4px,
+      transparent 5px,
+      transparent 10px
+    );
+  z-index: 10;
+}
+
+.empty,
+.mist {
+  background: var(--color-dark-purple);
+}
+
+/* Wall tile. Texture is made with repeating gradients */
+.filled {
+  background: linear-gradient(315deg, transparent 75%, var(--color-electric-green) 0) -50% 0,
+    linear-gradient(45deg, transparent 75%, var(--color-electric-green) 0) -50% 0,
+    linear-gradient(135deg, var(--color-bright-green) 50%, transparent 0) 0 0,
+    linear-gradient(45deg, var(--color-teal) 50%, rgb(4, 137, 171) 0) 0 0 rgb(4, 137, 171);
+  background-size: 50% 50%;
+  box-shadow: 0 0 6px var(--color-electric-green);
+}
+
+/* directional-pad controls for mobile */
+
 .buttonContainer {
   margin: 0 auto;
   display: flex;
@@ -411,10 +427,13 @@ label {
   background: var(--color-background);
 }
 
+/* Game avatar size and style */
+
 .avatar {
   background-image: url("./components/assets/spacemanSpriteSheetSmall.png");
   background-position: top var(--avatarDirection) left 0;
   background-repeat: no-repeat;
+  /* for avatar sprite sheet */
   animation: moveSprite 0.5s steps(3) infinite;
   width: 20px;
   height: 20px;
@@ -444,10 +463,7 @@ label {
 }
 
 @media (min-width: 768px) {
-  html {
-    --tileMultiplier: 6.625%;
-  }
-
+  /* stack inputs on start modal */
   .startModalInputContainer {
     display: flex;
     justify-content: space-between;
@@ -475,6 +491,7 @@ label {
     max-height: 300px;
   }
 
+  /* positions the 'use arrow keys to navigate' instruction inside/on top of the maze window */
   .instruction {
     display: block;
     margin-bottom: 0;

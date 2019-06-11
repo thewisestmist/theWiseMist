@@ -3,10 +3,10 @@ import "./App.css";
 import Modal from "./components/Modal.js";
 import WisdomAPICall from "./components/WisdomAPICall";
 import Maze from "./components/Maze";
-import obstacleSetOne from "./obstacleSetOne";
-import obstacleSetTwo from "./obstacleSetTwo"
-import obstacleSetThree from "./obstacleSetThree";
-import mazeMap from "./mazeMap.js";
+import mazeIntervalOne from "./mazeIntervalOne.js";
+import mazeIntervalTwo from "./mazeIntervalTwo";
+import mazeIntervalThree from "./mazeIntervalThree"
+import mazeIntervalFour from "./mazeIntervalFour";
 import Avatar from "./components/Avatar.js";
 import Controller from './components/Controller'
 
@@ -20,7 +20,7 @@ class App extends React.Component {
       userName: "",
       wisdomKeyword: "",
       userX: 0,
-      userY: mazeMap.length - 1,
+      userY: mazeIntervalOne.length - 1,
       // mazeWindow is always 15x15 tiles, so to center the map
       // the initial position of maze map is 8 x 8
       mazeX: 8,
@@ -29,10 +29,9 @@ class App extends React.Component {
       wisdomError: false,
       inputError: false,
       avatarDirection: "0%",
-      mazeMap: mazeMap,
+      mazeMap: mazeIntervalOne,
       showInstructions: true
     };
-    this.myRef = React.createRef(); 
   }
 
   // on first page load
@@ -46,7 +45,7 @@ class App extends React.Component {
     // add event listeners for key presses
     window.addEventListener("keydown", this.handleKeyPress);
 
-    //add event listener to see when player move is finished,
+    //add event listener to see when player move is finished
     document.addEventListener("transitionend", () => {
       this.setState({
         keysActive: true
@@ -61,16 +60,15 @@ class App extends React.Component {
   }
 
   // covers the whole window with the outer modal display
-  // gets passes which inner modal to display within itself: start or win
+  // gets passed which inner modal to display within itself: start or win
   showModal = modalToShow => {
     this.setState({
       modalVisible: true,
       modalToShow: modalToShow
-    }, () => {
-      window.scrollTo(0, this.myRef.current.offsetTop);
     });
   };
 
+  // checks if user input is valid format; if so, removes start modal so game can begin
   hideModal = () => {
     // filter user input to one word, no non-alphabet characters
     if (this.state.userName && this.state.wisdomKeyword) {
@@ -99,22 +97,22 @@ class App extends React.Component {
       () => {
         setTimeout(() => {
           this.setState({
-            mazeMap: mazeMap
+            mazeMap: mazeIntervalOne
           });
         }, 0);
         setTimeout(() => {
           this.setState({
-            mazeMap: obstacleSetOne
+            mazeMap: mazeIntervalTwo
           });
         }, 1000);
         setTimeout(() => {
           this.setState({
-            mazeMap: obstacleSetTwo
+            mazeMap: mazeIntervalThree
           });
         }, 2000);
         setTimeout(() => {
           this.setState({
-            mazeMap: obstacleSetThree
+            mazeMap: mazeIntervalFour
           });
         }, 3000);
       },
@@ -140,14 +138,16 @@ class App extends React.Component {
   // makes sure attempted move is valid, then makes that move if valid
   updateUserPosition = (direction, event) => {
     event.preventDefault();
-     this.setState({
-       showInstructions: false
-     });
+    // hide instructions after first keypress
+    this.setState({
+      showInstructions: false
+    });
     // if the user is trapped inside an obstacle, do nothing
     if (this.state.mazeMap[this.state.userY][this.state.userX] < 0) {
       return null
     } 
 
+    // check which direction key was pressed, and make the appropriate action for each
     switch (direction) {
       case "up":
         // make sure we're staying within the bounds of the map
@@ -161,6 +161,7 @@ class App extends React.Component {
                 mazeY: this.state.mazeY + 1,
                 // disallow further input until movement animation finishes
                 keysActive: false,
+                // point avatar in the right direction (reposition sprite sheet)
                 avatarDirection: "66%"
               },
               // center the map on new position
@@ -230,9 +231,11 @@ class App extends React.Component {
 
   // see if there's anything special about the map tile the user is currently in
   checkCurrentPosition = () => {
+    // 9 is the mist, so the user has won
     if (this.state.mazeMap[this.state.userY][this.state.userX] === 9) {
       this.showModal("win");
       } else if (this.state.mazeMap[this.state.userY][this.state.userX] === 2) { 
+        // wormhole back to the start
         this.setState({
           userX: 0,
           userY: this.state.mazeMap.length - 1,
@@ -240,6 +243,7 @@ class App extends React.Component {
           mazeY: 8
         }, this.moveAvatar);
     } else if (this.state.mazeMap[this.state.userY][this.state.userX] === 3) {
+      // wormhole to the upper-left of the maze
       this.setState({
         userX: 0,
         userY: 0,
@@ -263,11 +267,7 @@ class App extends React.Component {
         inputError: false,
         wisdomError: false,
         showInstructions: true
-      },() => {
-       window.scrollTo(0, this.myRef.current.offsetTop);
-        this.moveAvatar()
-      }
-    );
+      }, this.moveAvatar);
   };
 
   // puts result of wisdom API call in global state
@@ -284,7 +284,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div ref={this.myRef} className="App">
+      <div className="App">
           <Modal
             modalVisible={this.state.modalVisible}
             hideModal={this.hideModal}
@@ -301,16 +301,15 @@ class App extends React.Component {
             userQuery={this.state.wisdomKeyword}
             getWisdom={this.getWisdom}
           />
-        ) : (
-          <></>
-        )}
+        ) : 
+          null
+        }
         <main className="AppContainer">
           <div className="wrapper">
             <div className="mazeWindow">
               <Maze maze={this.state.mazeMap} />
               <Avatar />
               {this.state.showInstructions ? <p className="instruction">Use arrow keys to navigate.</p> : null}
-            
             </div>
             <Controller
               updateUserPosition={this.updateUserPosition}
