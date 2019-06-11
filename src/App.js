@@ -29,8 +29,10 @@ class App extends React.Component {
       wisdomError: false,
       inputError: false,
       avatarDirection: "0%",
-      mazeMap: mazeMap
+      mazeMap: mazeMap,
+      showInstructions: true
     };
+    this.myRef = React.createRef(); 
   }
 
   // on first page load
@@ -64,6 +66,8 @@ class App extends React.Component {
     this.setState({
       modalVisible: true,
       modalToShow: modalToShow
+    }, () => {
+      window.scrollTo(0, this.myRef.current.offsetTop);
     });
   };
 
@@ -136,7 +140,9 @@ class App extends React.Component {
   // makes sure attempted move is valid, then makes that move if valid
   updateUserPosition = (direction, event) => {
     event.preventDefault();
-
+     this.setState({
+       showInstructions: false
+     });
     // if the user is trapped inside an obstacle, do nothing
     if (this.state.mazeMap[this.state.userY][this.state.userX] < 0) {
       return null
@@ -255,9 +261,12 @@ class App extends React.Component {
         mazeY: 8,
         modalToShow: "start",
         inputError: false,
-        wisdomError: false
-      },
-      this.moveAvatar
+        wisdomError: false,
+        showInstructions: true
+      },() => {
+       window.scrollTo(0, this.myRef.current.offsetTop);
+        this.moveAvatar()
+      }
     );
   };
 
@@ -275,18 +284,18 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Modal
-          modalVisible={this.state.modalVisible}
-          hideModal={this.hideModal}
-          modalToShow={this.state.modalToShow}
-          handleChange={this.handleChange}
-          userName={this.state.userName}
-          wisdomMessage={this.state.wisdomObject}
-          resetGame={this.resetGame}
-          inputError={this.state.inputError}
-          wisdomError={this.state.wisdomError}
-        />
+      <div ref={this.myRef} className="App">
+          <Modal
+            modalVisible={this.state.modalVisible}
+            hideModal={this.hideModal}
+            modalToShow={this.state.modalToShow}
+            handleChange={this.handleChange}
+            userName={this.state.userName}
+            wisdomMessage={this.state.wisdomObject}
+            resetGame={this.resetGame}
+            inputError={this.state.inputError}
+            wisdomError={this.state.wisdomError}
+          />
         {!this.state.modalVisible ? (
           <WisdomAPICall
             userQuery={this.state.wisdomKeyword}
@@ -300,12 +309,13 @@ class App extends React.Component {
             <div className="mazeWindow">
               <Maze maze={this.state.mazeMap} />
               <Avatar />
+              {this.state.showInstructions ? <p className="instruction">Use arrow keys to navigate.</p> : null}
+            
             </div>
             <Controller
               updateUserPosition={this.updateUserPosition}
               onKeyDown={this.handleKeyPress}
             />
-            <p className="instruction">Use arrow keys to navigate.</p>
           </div>
         </main>
       </div>
