@@ -409,7 +409,6 @@ label {
   background: var(--color-background);
 }
 
-
 .avatar {
   background-image: url("./components/assets/spacemanSpriteSheet.png");
   background-position: top var(--avatarDirection) left 0;

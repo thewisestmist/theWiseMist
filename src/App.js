@@ -31,6 +31,7 @@ class App extends React.Component {
       avatarDirection: "0%",
       mazeMap: mazeMap
     };
+    this.myRef = React.createRef(); 
   }
 
   // controls the timing of shifting maze walls
@@ -94,6 +95,8 @@ class App extends React.Component {
     this.setState({
       modalVisible: true,
       modalToShow: modalToShow
+    }, () => {
+      this.myRef.current.scrollTo(0, 0);
     });
   };
 
@@ -251,8 +254,10 @@ class App extends React.Component {
         modalToShow: "start",
         inputError: false,
         wisdomError: false
-      },
-      this.moveAvatar
+      },() => {
+        this.myRef.current.scrollTo(0, 0);
+        this.moveAvatar()
+      }
     );
   };
 
@@ -270,7 +275,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div ref={this.myRef} className="App">
         <Modal
           modalVisible={this.state.modalVisible}
           hideModal={this.hideModal}
